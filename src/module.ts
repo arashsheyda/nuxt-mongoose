@@ -1,11 +1,13 @@
-import { addServerPlugin, addTemplate, createResolver, defineNuxtModule } from '@nuxt/kit'
+import { addServerPlugin, addTemplate, createResolver, defineNuxtModule, logger } from '@nuxt/kit'
+import { pathExists } from 'fs-extra'
+import { tinyws } from 'tinyws'
 import { defu } from 'defu'
-import type { ConnectOptions } from 'mongoose'
+import sirv from 'sirv'
 
-export interface ModuleOptions {
-  uri?: string
-  options?: ConnectOptions
-}
+import { PATH_CLIENT, PATH_ENTRY } from './constants'
+import type { ModuleOptions } from './types'
+
+import { setupRPC } from './server-rpc'
 
 export default defineNuxtModule<ModuleOptions>({
   meta: {
@@ -14,6 +16,7 @@ export default defineNuxtModule<ModuleOptions>({
   },
   defaults: {
     uri: process.env.MONGODB_URI as string,
+    devtools: true,
     options: {},
   },
   setup(options, nuxt) {
@@ -26,6 +29,39 @@ export default defineNuxtModule<ModuleOptions>({
     nuxt.options.runtimeConfig.public.mongoose = defu(nuxt.options.runtimeConfig.public.mongoose || {}, {
       uri: options.uri,
       options: options.options,
+      devtools: options.devtools,
+    })
+
+    // Setup devtools UI
+    const distResolve = (p: string) => {
+      const cwd = resolve('.')
+      if (cwd.endsWith('/dist'))
+        return resolve(p)
+      return resolve(`../dist/${p}`)
+    }
+
+    const clientPath = distResolve('./client')
+    const { middleware: rpcMiddleware } = setupRPC(nuxt, options)
+
+    nuxt.hook('vite:serverCreated', async (server) => {
+      server.middlewares.use(PATH_ENTRY, tinyws() as any)
+      server.middlewares.use(PATH_ENTRY, rpcMiddleware as any)
+      if (await pathExists(clientPath))
+        server.middlewares.use(PATH_CLIENT, sirv(clientPath, { dev: true, single: true }))
+    })
+
+    // eslint-disable-next-line @typescript-eslint/prefer-ts-expect-error
+    // @ts-ignore runtime type
+    nuxt.hook('devtools:customTabs', (iframeTabs) => {
+      iframeTabs.push({
+        name: 'mongoose',
+        title: 'Mongoose',
+        icon: 'skill-icons:mongodb',
+        view: {
+          type: 'iframe',
+          src: PATH_CLIENT,
+        },
+      })
     })
 
     // virtual imports
@@ -55,5 +91,7 @@ export default defineNuxtModule<ModuleOptions>({
 
     // Add server-plugin for database connection
     addServerPlugin(resolve('./runtime/server/plugins/mongoose.db'))
+
+    logger.success('`nuxt-mongoose` is ready!')
   },
 })
