@@ -13,10 +13,21 @@ const documents = computedAsync(async () => {
 const fields = computed(() => {
   if (documents.value && documents.value.length > 0)
     return Object.keys(documents.value[0])
+  return []
 })
 
 const editing = ref(false)
 const selectedDocument = ref()
+
+function addDocument() {
+  editing.value = true
+  // add newDocument with fields as keys
+  selectedDocument.value = {}
+  for (const field of fields.value) {
+    if (field !== '_id')
+      selectedDocument.value[field] = ''
+  }
+}
 
 function editDocument(document: any) {
   if (editing.value)
@@ -26,6 +37,13 @@ function editDocument(document: any) {
 }
 
 async function saveDocument() {
+  await rpc.createDocument(props.collection, selectedDocument.value)
+  editing.value = false
+  selectedDocument.value = undefined
+  documents.value = await rpc.listDocuments(props.collection)
+}
+
+async function updateDocument() {
   // TODO: validate & show errors
   await rpc.updateDocument(props.collection, selectedDocument.value)
   editing.value = false
@@ -46,10 +64,10 @@ async function deleteDocument(document: any) {
 
 <template>
   <div w-full h-full p4>
-    <template v-if="fields?.length">
+    <template v-if="documents?.length">
       <div flex justify-between>
         <div flex-auto />
-        <NButton icon="carbon:add" n="green" @click="drawer = !drawer">
+        <NButton icon="carbon:add" n="green" @click="addDocument">
           Add Document
         </NButton>
       </div>
@@ -68,21 +86,33 @@ async function deleteDocument(document: any) {
           <tr v-for="document in documents" :key="document._id" :class="{ isEditing: editing && selectedDocument._id === document._id }">
             <td v-for="field of fields" :key="field" hover-bg-green hover-bg-opacity-5 hover-text-green cursor-pointer @dblclick="editDocument(document)">
               <template v-if="editing && selectedDocument._id === document._id">
-                <input v-model="selectedDocument[field]">
+                <input v-model="selectedDocument[field]" :disabled="field === '_id'">
               </template>
               <span v-else>
                 {{ document[field] }}
               </span>
             </td>
+            <td class="actions">
+              <div flex justify-center gap2>
+                <template v-if="editing && selectedDocument._id === document._id">
+                  <NIconButton icon="carbon-save" @click="updateDocument" />
+                  <NIconButton icon="carbon-close" @click="discardEditing" />
+                </template>
+                <template v-else>
+                  <NIconButton icon="carbon-edit" @click="editDocument(document)" />
+                  <NIconButton icon="carbon-delete" @click="deleteDocument(document)" />
+                </template>
+              </div>
+            </td>
+          </tr>
+          <tr v-if="editing && !selectedDocument?._id" :class="{ isEditing: editing && !selectedDocument?._id }">
+            <td v-for="field of fields" :key="field">
+              <input v-if="field !== '_id'" v-model="selectedDocument[field]" :placeholder="field">
+              <input v-else placeholder="ObjectId(_id)" disabled>
+            </td>
             <td flex justify-center gap2 class="actions">
-              <template v-if="editing && selectedDocument._id === document._id">
-                <NIconButton icon="carbon-save" @click="saveDocument" />
-                <NIconButton icon="carbon-close" @click="discardEditing" />
-              </template>
-              <template v-else>
-                <NIconButton icon="carbon-edit" @click="editDocument(document)" />
-                <NIconButton icon="carbon-delete" @click="deleteDocument(document)" />
-              </template>
+              <NIconButton icon="carbon-save" @click="saveDocument" />
+              <NIconButton icon="carbon-close" @click="discardEditing" />
             </td>
           </tr>
         </tbody>
@@ -116,6 +146,9 @@ table {
     background: transparent;
     color: rgba(255, 255, 255, 0.7);
     width: 100%;
+    &::placeholder {
+      color: rgba(255, 255, 255, 0.3);
+    }
     &:focus {
       outline: none;
     }
@@ -131,6 +164,9 @@ th {
 
 td {
   border: 1px solid #272727;
+  &:last-child {
+    border-left: none;
+  }
   padding: 5px 10px;
   color: rgba(255, 255, 255, 0.7);
   &:hover {
