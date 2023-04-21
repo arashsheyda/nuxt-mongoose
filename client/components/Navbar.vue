@@ -8,6 +8,10 @@ defineProps({
     type: Boolean,
     default: true,
   },
+  placeholder: {
+    type: String,
+    default: 'Search...',
+  },
 })
 
 const emit = defineEmits<{
@@ -20,11 +24,11 @@ function update(event: any) {
 </script>
 
 <template>
-  <div flex="~ col gap2" border="b base" flex-1 navbar-glass pb4 :class="[{ p4: !noPadding }]">
+  <div flex="~ col gap2" border="b base" flex-1 navbar-glass :class="[{ p4: !noPadding }]">
     <div flex="~ gap4">
       <slot name="search">
         <NTextInput
-          placeholder="Search..."
+          :placeholder="placeholder"
           icon="carbon-search"
           n="primary" flex-auto
           :class="{ 'px-5 py-2': !noPadding }"

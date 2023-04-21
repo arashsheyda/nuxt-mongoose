@@ -34,6 +34,8 @@ const filtered = computed(() => {
 })
 
 function addDocument() {
+  if (editing.value)
+    return
   editing.value = true
   selectedDocument.value = {}
   for (const field of fields.value) {
@@ -80,12 +82,16 @@ async function deleteDocument(document: any) {
 
 <template>
   <div ref="dbContainer">
-    <Navbar v-model:search="search" sticky top-0 p4 backdrop-blur z-10>
+    <Navbar v-model:search="search" sticky top-0 px4 py2 backdrop-blur z-10>
       <template #actions>
         <NButton icon="carbon:add" n="green" @click="addDocument">
           Add Document
         </NButton>
       </template>
+      <div op50>
+        <span v-if="search">{{ filtered.length }} matched · </span>
+        <span>{{ documents?.length }} documents in total</span>
+      </div>
     </Navbar>
     <table v-if="documents?.length" w-full mb10 :class="{ 'editing-mode': editing }">
       <thead>
