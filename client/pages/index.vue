@@ -27,7 +27,7 @@ onMounted(() => {
   <div h-full>
     <PanelLeftRight :min-left="13" :max-left="20">
       <template #left>
-        <div py1 px2 border="r base">
+        <div py1 px4>
           <div flex items-center p2>
             <!-- TODO: -->
             <NIconButton w-full mb2 icon="carbon-reset" title="Refresh" />
