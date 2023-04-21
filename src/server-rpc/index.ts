@@ -7,6 +7,7 @@ import type { ChannelOptions } from 'birpc'
 import { parse, stringify } from 'flatted'
 import type { Nuxt } from 'nuxt/schema'
 import type { ClientFunctions, ModuleOptions, NuxtDevtoolsServerContext, ServerFunctions } from '../types'
+import { setupDatabaseRPC } from './database'
 
 export function setupRPC(nuxt: Nuxt, options: ModuleOptions): any {
   const serverFunctions = {} as ServerFunctions
@@ -61,7 +62,7 @@ export function setupRPC(nuxt: Nuxt, options: ModuleOptions): any {
   nuxt.devtools = ctx
 
   Object.assign(serverFunctions, {
-    // TODO: add rpc
+    ...setupDatabaseRPC(ctx),
   } satisfies Partial<ServerFunctions>)
 
   const wsClients = new Set<WebSocket>()
