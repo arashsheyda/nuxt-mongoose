@@ -63,6 +63,9 @@
     "eslint": "^8.38.0",
     "mongoose": "^7.0.4",
     "nuxt": "^3.4.1",
+    "sass": "^1.62.0",
+    "sass-loader": "^13.2.2",
+    "splitpanes": "^3.1.5",
     "vitest": "^0.30.1"
   }
 }
