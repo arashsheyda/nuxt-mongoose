@@ -1,4 +1,4 @@
-import { addServerPlugin, addTemplate, createResolver, defineNuxtModule, logger } from '@nuxt/kit'
+import { addImportsDir, addServerPlugin, addTemplate, createResolver, defineNuxtModule, logger } from '@nuxt/kit'
 import { pathExists } from 'fs-extra'
 import { tinyws } from 'tinyws'
 import { defu } from 'defu'
@@ -21,6 +21,8 @@ export default defineNuxtModule<ModuleOptions>({
   },
   setup(options, nuxt) {
     const { resolve } = createResolver(import.meta.url)
+
+    addImportsDir(resolve('./runtime/composables'))
 
     if (!options.uri)
       console.warn('Missing `MONGODB_URI` in `.env`')

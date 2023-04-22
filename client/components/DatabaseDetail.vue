@@ -1,3 +1,4 @@
+<!-- eslint-disable no-console -->
 <script lang="ts" setup>
 const props = defineProps({
   collection: {
@@ -10,9 +11,15 @@ const documents = computedAsync(async () => {
   return await rpc.listDocuments(props.collection)
 })
 
+const schema = computedAsync<any>(async () => {
+  return await rpc.resourceSchema(props.collection)
+})
+
 const fields = computed(() => {
   if (documents.value && documents.value.length > 0)
     return Object.keys(documents.value[0])
+  if (schema.value)
+    return Object.keys(schema.value)
   return []
 })
 
@@ -34,13 +41,20 @@ const filtered = computed(() => {
 })
 
 function addDocument() {
+  // TODO: validate & show errors
   if (editing.value)
     return
   editing.value = true
   selectedDocument.value = {}
-  for (const field of fields.value) {
-    if (field !== '_id')
+  if (schema.value) {
+    for (const field of Object.keys(schema.value))
       selectedDocument.value[field] = ''
+  }
+  else {
+    for (const field of fields.value) {
+      if (field !== '_id')
+        selectedDocument.value[field] = ''
+    }
   }
 
   const parent = dbContainer.value?.parentElement
@@ -78,10 +92,22 @@ async function deleteDocument(document: any) {
   rpc.deleteDocument(props.collection, document._id)
   documents.value = await rpc.listDocuments(props.collection)
 }
+
+const fieldRefs = ref<any>([])
+function handleClickOutside(event: any) {
+  if (editing.value && selectedDocument.value) {
+    const isClickOutside = fieldRefs.value.every((ref: any) => !ref.contains(event.target))
+    if (isClickOutside) {
+      editing.value = false
+      selectedDocument.value = null
+    }
+  }
+}
+// useEventListener('click', handleClickOutside)
 </script>
 
 <template>
-  <div ref="dbContainer">
+  <div ref="dbContainer" :class="{ 'h-full': !documents?.length }">
     <Navbar v-model:search="search" sticky top-0 px4 py2 backdrop-blur z-10>
       <template #actions>
         <NButton icon="carbon:add" n="green" @click="addDocument">
@@ -93,7 +119,7 @@ async function deleteDocument(document: any) {
         <span>{{ documents?.length }} documents in total</span>
       </div>
     </Navbar>
-    <table v-if="documents?.length" w-full mb10 :class="{ 'editing-mode': editing }">
+    <table v-if="documents?.length || selectedDocument" w-full mb10 :class="{ 'editing-mode': editing }">
       <thead>
         <tr>
           <th v-for="field of fields" :key="field" text-start>
@@ -105,8 +131,9 @@ async function deleteDocument(document: any) {
         </tr>
       </thead>
       <tbody>
+        <!-- hover-bg-green hover-bg-opacity-5 hover-text-green cursor-pointer -->
         <tr v-for="document in filtered" :key="document._id" :class="{ isEditing: editing && selectedDocument._id === document._id }">
-          <td v-for="field of fields" :key="field" hover-bg-green hover-bg-opacity-5 hover-text-green cursor-pointer @dblclick="editDocument(document)">
+          <td v-for="field of fields" :key="field" ref="fieldRefs" @dblclick="editDocument(document)">
             <template v-if="editing && selectedDocument._id === document._id">
               <input v-model="selectedDocument[field]" :disabled="field === '_id'">
             </template>

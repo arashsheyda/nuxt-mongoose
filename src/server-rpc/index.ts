@@ -8,6 +8,7 @@ import { parse, stringify } from 'flatted'
 import type { Nuxt } from 'nuxt/schema'
 import type { ClientFunctions, ModuleOptions, NuxtDevtoolsServerContext, ServerFunctions } from '../types'
 import { setupDatabaseRPC } from './database'
+import { setupResourceRPC } from './resource'
 
 export function setupRPC(nuxt: Nuxt, options: ModuleOptions): any {
   const serverFunctions = {} as ServerFunctions
@@ -63,6 +64,7 @@ export function setupRPC(nuxt: Nuxt, options: ModuleOptions): any {
 
   Object.assign(serverFunctions, {
     ...setupDatabaseRPC(ctx),
+    ...setupResourceRPC(ctx),
   } satisfies Partial<ServerFunctions>)
 
   const wsClients = new Set<WebSocket>()

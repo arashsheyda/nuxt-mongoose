@@ -11,24 +11,28 @@
   "exports": {
     ".": {
       "types": "./dist/types.d.ts",
-      "require": "./dist/module.cjs",
+      "require": "./module.cjs",
       "import": "./dist/module.mjs"
-    }
+    },
+    "./types": {
+      "types": "./dist/types.d.ts",
+      "import": "./dist/types.mjs"
+    },
+    "./*": "./*"
   },
-  "main": "./dist/module.cjs",
+  "main": "./module.cjs",
   "types": "./dist/types.d.ts",
   "files": [
     "dist"
   ],
   "scripts": {
-    "prepack": "nuxt-module-build && npm run build:client",
+    "build": "pnpm dev:prepare && pnpm build:module && pnpm build:client",
     "build:client": "nuxi generate client",
-    "dev:client": "nuxi dev client --port 3300",
-    "dev": "npm run play:dev",
-    "dev:prepare": "nuxt-module-build --stub && nuxi prepare client",
-    "play:dev": "nuxi dev playground",
-    "play:prod": "npm run prepack && nuxi dev playground",
-    "release": "npm run lint && npm run test && npm run prepack && changelogen --release && npm publish && git push --follow-tags",
+    "build:module": "nuxt-build-module",
+    "dev": "nuxi dev playground",
+    "dev:prepare": "nuxi prepare client",
+    "dev:prod": "npm run build && pnpm dev",
+    "release": "npm run lint && npm run test && npm run build && changelogen --release && npm publish && git push --follow-tags",
     "lint": "eslint .",
     "test": "vitest run",
     "test:watch": "vitest watch"
