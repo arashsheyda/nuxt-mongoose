@@ -2,9 +2,8 @@ import { logger } from '@nuxt/kit'
 import mongoose from 'mongoose'
 import type { NuxtDevtoolsServerContext, ServerFunctions } from '../types'
 
-export function setupDatabaseRPC({ nuxt }: NuxtDevtoolsServerContext): any {
-  // TODO:
-  mongoose.connect('mongodb://127.0.0.1:27017/arcane')
+export function setupDatabaseRPC({ nuxt, options }: NuxtDevtoolsServerContext): any {
+  mongoose.connect(options.uri, options.options)
 
   return {
     async createCollection(name: string) {
