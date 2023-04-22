@@ -1,5 +1,5 @@
 import type { ConnectOptions, Model, SchemaDefinition, SchemaOptions } from 'mongoose'
-import { Schema, connect, model } from 'mongoose'
+import mongoose from 'mongoose'
 import { logger } from '@nuxt/kit'
 
 import { useRuntimeConfig } from '#imports'
@@ -10,7 +10,7 @@ export async function defineMongooseConnection({ uri, options }: { uri?: string;
   const mongooseOptions = options || config.options
 
   try {
-    await connect(mongooseUri, { ...mongooseOptions })
+    await mongoose.connect(mongooseUri, { ...mongooseOptions })
     logger.info('Connected to database')
   }
   catch (err) {
@@ -29,8 +29,8 @@ export function defineMongooseModel(nameOrOptions: string | { name: string; sche
     options = nameOrOptions.options
   }
 
-  const newSchema = new Schema({
+  const newSchema = new mongoose.Schema({
     ...schema,
   }, { ...options })
-  return model(name, newSchema)
+  return mongoose.model(name, newSchema)
 }
