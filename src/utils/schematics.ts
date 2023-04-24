@@ -26,7 +26,6 @@ export const ${name}Schema = defineMongooseModel({
 
 export function generateApiRoute(action: string, { model, by }: { model: { name: string; path: string }; by?: string }) {
   const modelName = capitalize(model.name)
-  const schemaImport = `import { ${modelName}Schema } from '../../models/${model.path}'\n\n`
   const operation = {
     index: `return await ${modelName}Schema.find({})`,
     create: `return await new ${modelName}Schema(body).save()`,
@@ -42,7 +41,7 @@ export function generateApiRoute(action: string, { model, by }: { model: { name:
     return error
   }`
 
-  return `${schemaImport}export default defineEventHandler(async (event) => {
+  return `export default defineEventHandler(async (event) => {
   ${(action === 'create' || action === 'put') ? `const body = await readBody(event)\n  ${main}` : main}
 })
 `

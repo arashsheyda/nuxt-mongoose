@@ -13,10 +13,10 @@ export function setupResourceRPC({ nuxt }: NuxtDevtoolsServerContext): any {
       const dbName = capitalize(singular)
 
       if (collection.fields) {
-        if (!fs.existsSync(resolve(nuxt.options.serverDir, 'models', `${singular}.schema.ts`))) {
-          fs.ensureDirSync(resolve(nuxt.options.serverDir, 'models'))
+        if (!fs.existsSync(resolve(nuxt.options.serverDir, 'utils/models', `${singular}.schema.ts`))) {
+          fs.ensureDirSync(resolve(nuxt.options.serverDir, 'utils/models'))
           fs.writeFileSync(
-            resolve(nuxt.options.serverDir, 'models', `${singular}.schema.ts`),
+            resolve(nuxt.options.serverDir, 'utils/models', `${singular}.schema.ts`),
             generateSchemaFile(dbName, collection.fields),
           )
         }
@@ -57,14 +57,11 @@ export function setupResourceRPC({ nuxt }: NuxtDevtoolsServerContext): any {
       // create rows and columns
     },
     async resourceSchema(collection: string) {
-      // get schema file if exists
+      // TODO: use magicast
       const singular = singularize(collection).toLowerCase()
-
-      if (fs.existsSync(resolve(nuxt.options.serverDir, 'models', `${singular}.schema.ts`))) {
-        const schemaPath = resolve(nuxt.options.serverDir, 'models', `${singular}.schema.ts`)
-
+      const schemaPath = resolve(nuxt.options.serverDir, 'utils/models', `${singular}.schema.ts`)
+      if (fs.existsSync(schemaPath)) {
         const content = fs.readFileSync(schemaPath, 'utf-8').match(/schema: \{(.|\n)*\}/g)
-
         if (content) {
           const schemaString = content[0].replace('schema: ', '').slice(0, -3)
           // eslint-disable-next-line no-eval
