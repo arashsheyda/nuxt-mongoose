@@ -1,5 +1,6 @@
 export interface ServerFunctions {
   // Database - collections
+  readyState(): Promise<any>
   createCollection(name: string): Promise<any>
   listCollections(): Promise<any>
   getCollection(name: string): Promise<any>
@@ -27,6 +28,6 @@ export interface Collection {
 }
 
 export interface Resource {
-  type: string
+  type: 'index' | 'create' | 'show' | 'put' | 'delete'
   by?: string
 }
