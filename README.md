@@ -10,7 +10,7 @@
 ## Installation
 
 ```bash
-pnpm add nuxt-mongoose mongoose
+pnpm add nuxt-mongoose
 ```
 
 ## Usage
