@@ -1,7 +1,7 @@
 {
   "name": "nuxt-mongoose",
   "type": "module",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Nuxt 3 module for MongoDB with Mongoose",
   "license": "MIT",
   "repository": {

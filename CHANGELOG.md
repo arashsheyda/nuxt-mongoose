@@ -1,6 +1,29 @@
 # Changelog
 
 
+## v0.0.3
+
+[compare changes](https://github.com/arashsheyda/nuxt-mongoose/compare/v0.0.2...v0.0.3)
+
+
+### 🚀 Enhancements
+
+  - Duplicate document ([f40c483](https://github.com/arashsheyda/nuxt-mongoose/commit/f40c483))
+  - Initial pagination ([3ac731c](https://github.com/arashsheyda/nuxt-mongoose/commit/3ac731c))
+
+### 🩹 Fixes
+
+  - Initial pagination ([ad0c5b2](https://github.com/arashsheyda/nuxt-mongoose/commit/ad0c5b2))
+  - Handle errors ([e9b764b](https://github.com/arashsheyda/nuxt-mongoose/commit/e9b764b))
+
+### 🏡 Chore
+
+  - Move readyState ([260eadd](https://github.com/arashsheyda/nuxt-mongoose/commit/260eadd))
+
+### ❤️  Contributors
+
+- Arashsheyda <sheidaeearash1999@gmail.com>
+
 ## v0.0.2
 
 [compare changes](https://github.com/arashsheyda/nuxt-mongoose/compare/v0.0.1...v0.0.2)
