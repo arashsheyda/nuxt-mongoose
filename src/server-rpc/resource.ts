@@ -1,11 +1,10 @@
 import fs from 'fs-extra'
 import { resolve } from 'pathe'
-import mongoose from 'mongoose'
 import type { Collection, NuxtDevtoolsServerContext, Resource, ServerFunctions } from '../types'
 import { generateApiRoute, generateSchemaFile } from '../utils/schematics'
 import { capitalize, pluralize, singularize } from '../utils/formatting'
 
-export function setupResourceRPC({ nuxt }: NuxtDevtoolsServerContext): any {
+export function setupResourceRPC({ nuxt, rpc }: NuxtDevtoolsServerContext): any {
   return {
     // TODO: maybe separate functions
     async generateResource(collection: Collection, resources: Resource[]) {
@@ -45,8 +44,9 @@ export function setupResourceRPC({ nuxt }: NuxtDevtoolsServerContext): any {
       }
 
       // create collection if not exists
-      if (!mongoose.connection.modelNames().includes(dbName))
-        await mongoose.connection.db.createCollection(plural)
+      const collections = await rpc.functions.listCollections()
+      if (!collections.find((c: any) => c.name === plural))
+        await rpc.functions.createCollection(plural)
     },
     async resourceSchema(collection: string) {
       // TODO: use magicast

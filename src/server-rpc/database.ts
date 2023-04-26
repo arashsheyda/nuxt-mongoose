@@ -1,4 +1,3 @@
-import { logger } from '@nuxt/kit'
 import mongoose from 'mongoose'
 import type { NuxtDevtoolsServerContext, ServerFunctions } from '../types'
 
@@ -10,24 +9,54 @@ export function setupDatabaseRPC({ options }: NuxtDevtoolsServerContext): any {
       return mongoose.connection.readyState
     },
     async createCollection(name: string) {
-      return await mongoose.connection.db.createCollection(name)
+      try {
+        return await mongoose.connection.db.createCollection(name)
+      }
+      catch (error) {
+        return ErrorIT(error)
+      }
     },
     async listCollections() {
-      return await mongoose.connection.db.listCollections().toArray()
+      try {
+        return await mongoose.connection.db.listCollections().toArray()
+      }
+      catch (error) {
+        return ErrorIT(error)
+      }
     },
     async getCollection(name: string) {
-      return mongoose.connection.db.collection(name)
+      try {
+        return await mongoose.connection.db.collection(name).findOne()
+      }
+      catch (error) {
+        return ErrorIT(error)
+      }
     },
     async dropCollection(name: string) {
-      return await mongoose.connection.db.collection(name).drop()
+      try {
+        return await mongoose.connection.db.dropCollection(name)
+      }
+      catch (error) {
+        return ErrorIT(error)
+      }
     },
 
     async createDocument(collection: string, data: any) {
       const { _id, ...rest } = data
-      return await mongoose.connection.db.collection(collection).insertOne(rest)
+      try {
+        return await mongoose.connection.db.collection(collection).insertOne(rest)
+      }
+      catch (error: any) {
+        return ErrorIT(error)
+      }
     },
     async countDocuments(collection: string) {
-      return await mongoose.connection.db.collection(collection).countDocuments()
+      try {
+        return await mongoose.connection.db.collection(collection).countDocuments()
+      }
+      catch (error) {
+        return ErrorIT(error)
+      }
     },
     async listDocuments(collection: string, options: { page: number; limit: number } = { page: 1, limit: 10 }) {
       const skip = (options.page - 1) * options.limit
@@ -36,8 +65,13 @@ export function setupDatabaseRPC({ options }: NuxtDevtoolsServerContext): any {
         cursor.limit(options.limit)
       return await cursor.toArray()
     },
-    async getDocument(collection: string, document: {}) {
-      return await mongoose.connection.db.collection(collection).findOne({ document })
+    async getDocument(collection: string, document: any) {
+      try {
+        return await mongoose.connection.db.collection(collection).findOne({ document })
+      }
+      catch (error) {
+        return ErrorIT(error)
+      }
     },
     async updateDocument(collection: string, data: any) {
       const { _id, ...rest } = data
@@ -45,12 +79,25 @@ export function setupDatabaseRPC({ options }: NuxtDevtoolsServerContext): any {
         return await mongoose.connection.db.collection(collection).findOneAndUpdate({ _id: new mongoose.Types.ObjectId(_id) }, { $set: rest })
       }
       catch (error) {
-        logger.log(error)
-        return error
+        return ErrorIT(error)
       }
     },
     async deleteDocument(collection: string, id: string) {
-      return await mongoose.connection.db.collection(collection).deleteOne({ _id: new mongoose.Types.ObjectId(id) })
+      try {
+        return await mongoose.connection.db.collection(collection).deleteOne({ _id: new mongoose.Types.ObjectId(id) })
+      }
+      catch (error) {
+        return ErrorIT(error)
+      }
     },
   } satisfies Partial<ServerFunctions>
+}
+
+function ErrorIT(error: any) {
+  return {
+    error: {
+      message: error?.message,
+      code: error?.code,
+    },
+  }
 }

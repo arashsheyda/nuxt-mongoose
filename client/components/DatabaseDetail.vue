@@ -78,19 +78,24 @@ function editDocument(document: any) {
   selectedDocument.value = { ...document }
 }
 
-async function saveDocument(document: any) {
-  await rpc.createDocument(props.collection, document)
-  editing.value = false
-  selectedDocument.value = undefined
-  documents.value = await rpc.listDocuments(props.collection, pagination)
-}
+async function saveDocument(document: any, create = true) {
+  const method = create ? rpc.createDocument : rpc.updateDocument
+  const newDocument = await method(props.collection, document)
+  if (newDocument?.error)
+    return alert(newDocument.error.message)
 
-async function updateDocument() {
-  // TODO: validate & show errors
-  await rpc.updateDocument(props.collection, selectedDocument.value)
-  editing.value = false
-  selectedDocument.value = undefined
-  documents.value = await rpc.listDocuments(props.collection, pagination)
+  if (create) {
+    if (!documents.value.length) {
+      documents.value = await rpc.listDocuments(props.collection, pagination)
+      return discardEditing()
+    }
+    documents.value.push({ _id: newDocument.insertedId, ...document })
+  }
+  else {
+    const index = documents.value.findIndex((doc: any) => doc._id === newDocument.value._id)
+    documents.value[index] = document
+  }
+  discardEditing()
 }
 
 function discardEditing() {
@@ -99,8 +104,11 @@ function discardEditing() {
 }
 
 async function deleteDocument(document: any) {
-  rpc.deleteDocument(props.collection, document._id)
-  documents.value = await rpc.listDocuments(props.collection, pagination)
+  const newDocument = await rpc.deleteDocument(props.collection, document._id)
+  if (newDocument.deletedCount === 0)
+    return alert('Failed to delete document')
+
+  documents.value = documents.value.filter((doc: any) => doc._id !== document._id)
 }
 
 const copy = useCopy()
@@ -163,7 +171,7 @@ const copy = useCopy()
           <td class="actions">
             <div flex justify-center gap2 class="group">
               <template v-if="editing && selectedDocument._id === document._id">
-                <NIconButton icon="carbon-save" @click="updateDocument" />
+                <NIconButton icon="carbon-save" @click="saveDocument(selectedDocument, false)" />
                 <NIconButton icon="carbon-close" @click="discardEditing" />
               </template>
               <template v-else>
