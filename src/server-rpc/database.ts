@@ -23,7 +23,8 @@ export function setupDatabaseRPC({ options }: NuxtDevtoolsServerContext): any {
     },
 
     async createDocument(collection: string, data: any) {
-      return await mongoose.connection.db.collection(collection).insertOne(data)
+      const { _id, ...rest } = data
+      return await mongoose.connection.db.collection(collection).insertOne(rest)
     },
     async listDocuments(collection: string) {
       return await mongoose.connection.db.collection(collection).find().toArray()

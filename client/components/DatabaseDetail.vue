@@ -1,4 +1,3 @@
-<!-- eslint-disable no-console -->
 <script lang="ts" setup>
 const props = defineProps({
   collection: {
@@ -68,8 +67,8 @@ function editDocument(document: any) {
   selectedDocument.value = { ...document }
 }
 
-async function saveDocument() {
-  await rpc.createDocument(props.collection, selectedDocument.value)
+async function saveDocument(document: any) {
+  await rpc.createDocument(props.collection, document)
   editing.value = false
   selectedDocument.value = undefined
   documents.value = await rpc.listDocuments(props.collection)
@@ -138,6 +137,7 @@ async function deleteDocument(document: any) {
               <template v-else>
                 <NIconButton icon="carbon-edit" @click="editDocument(document)" />
                 <NIconButton icon="carbon-delete" @click="deleteDocument(document)" />
+                <NIconButton icon="carbon-document-multiple-02" @click="saveDocument(document)" />
               </template>
             </div>
           </td>
@@ -148,7 +148,7 @@ async function deleteDocument(document: any) {
             <input v-else placeholder="ObjectId(_id)" disabled>
           </td>
           <td flex justify-center gap2 class="actions">
-            <NIconButton icon="carbon-save" @click="saveDocument" />
+            <NIconButton icon="carbon-save" @click="saveDocument(selectedDocument)" />
             <NIconButton icon="carbon-close" @click="discardEditing" />
           </td>
         </tr>
