@@ -8,7 +8,8 @@ export interface ServerFunctions {
 
   // Database - documents
   createDocument(collection: string, data: any): Promise<any>
-  listDocuments(collection: string): Promise<any>
+  countDocuments(collection: string): Promise<any>
+  listDocuments(collection: string, options: any): Promise<any>
   getDocument(collection: string, id: string): Promise<any>
   updateDocument(collection: string, data: any): Promise<any>
   deleteDocument(collection: string, id: string): Promise<any>

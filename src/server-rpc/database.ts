@@ -26,8 +26,15 @@ export function setupDatabaseRPC({ options }: NuxtDevtoolsServerContext): any {
       const { _id, ...rest } = data
       return await mongoose.connection.db.collection(collection).insertOne(rest)
     },
-    async listDocuments(collection: string) {
-      return await mongoose.connection.db.collection(collection).find().toArray()
+    async countDocuments(collection: string) {
+      return await mongoose.connection.db.collection(collection).countDocuments()
+    },
+    async listDocuments(collection: string, options: { page: number; limit: number } = { page: 1, limit: 10 }) {
+      const skip = (options.page - 1) * options.limit
+      const cursor = mongoose.connection.db.collection(collection).find().skip(skip)
+      if (options.limit !== 0)
+        cursor.limit(options.limit)
+      return await cursor.toArray()
     },
     async getDocument(collection: string, document: {}) {
       return await mongoose.connection.db.collection(collection).findOne({ document })
