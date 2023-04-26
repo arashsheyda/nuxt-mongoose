@@ -155,8 +155,8 @@ const toggleSchema = computed({
 </script>
 
 <template>
-  <div relative h-full of-hidden>
-    <div sticky top-0 px8 py4 n-bg-base>
+  <div relative h-full>
+    <div sticky top-0 px8 py4 glass-effect z-1>
       <div mb2 flex items-center>
         <span text-2xl font-bold mt1>
           <NCheckbox v-model="hasBread" n="green">
@@ -210,8 +210,8 @@ const toggleSchema = computed({
         </NCheckbox>
       </div>
     </div>
-    <div v-if="schema" px8 h-full of-auto>
-      <div grid="~ cols-1" gap-2 mt4 mb4>
+    <div v-if="schema" px8>
+      <div grid="~ cols-1" gap-2 my4>
         <div grid="~ cols-6" text-center>
           <div v-for="label in fieldsLabels" :key="label">
             {{ label }}
@@ -252,7 +252,7 @@ const toggleSchema = computed({
         </div>
       </div>
     </div>
-    <NButton absolute right-8 bottom-8 px8 py2 icon="carbon-magic-wand-filled" n="green" @click="generate">
+    <NButton glass-effect fixed right-10 bottom-8 px8 py2 icon="carbon-magic-wand-filled" n="green" @click="generate">
       Create
     </NButton>
   </div>

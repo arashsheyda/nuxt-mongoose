@@ -16,7 +16,9 @@ const { height: top } = useElementSize(() => props.navbar, undefined, { box: 'bo
 onClickOutside(el, () => {
   if (props.modelValue && props.autoClose)
     emit('close')
-}, {})
+}, {
+  ignore: ['#open-drawer-right'],
+})
 </script>
 
 <script lang="ts">

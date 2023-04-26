@@ -3,8 +3,6 @@ const route = useRoute()
 const router = useRouter()
 
 const selectedCollection = ref()
-// TODO: check connection
-const connected = ref(true)
 const drawer = ref(false)
 const search = ref('')
 
@@ -34,6 +32,7 @@ async function dropCollection(table: any) {
 
 async function refresh() {
   collections.value = await rpc.listCollections()
+  drawer.value = false
 }
 </script>
 
@@ -43,9 +42,9 @@ async function refresh() {
       <div px4>
         <Navbar v-model:search="search" :placeholder="`${collections?.length ?? '-'} collection in total`" mt2>
           <div flex items-center gap2>
-            <NIconButton w-full mb1.5 icon="carbon-reset" title="Refresh" />
-            <NIconButton w-full mb1.5 icon="carbon-data-base" title="Connection Name" :class="connected ? 'text-green-5' : 'text-orange-5'" />
-            <NIconButton w-full mb1.5 icon="carbon-add" title="Create Table" @click="drawer = !drawer" />
+            <NIconButton w-full mb1.5 icon="carbon-reset" title="Refresh" @click="refresh" />
+            <NIconButton w-full mb1.5 icon="carbon-data-base" title="Default" text-green-5 />
+            <NIconButton id="open-drawer-right" w-full mb1.5 icon="carbon-add" title="Create Collection" @click="drawer = true" />
           </div>
         </Navbar>
         <div grid gird-cols-1 my2 mx1>
