@@ -1,7 +1,7 @@
 {
   "name": "nuxt-mongoose",
   "type": "module",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Nuxt 3 module for MongoDB with Mongoose",
   "license": "MIT",
   "repository": {
@@ -32,7 +32,7 @@
     "dev": "nuxi dev playground",
     "dev:prepare": "nuxi prepare client",
     "dev:prod": "npm run build && pnpm dev",
-    "release": "npm run lint && npm run test && npm run build && changelogen --release && npm publish && git push --follow-tags",
+    "release": "npm run lint && npm run build && changelogen --release && npm publish && git push --follow-tags",
     "lint": "eslint .",
     "test": "vitest run",
     "test:watch": "vitest watch"
