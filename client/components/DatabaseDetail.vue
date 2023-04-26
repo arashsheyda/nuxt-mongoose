@@ -6,8 +6,19 @@ const props = defineProps({
   },
 })
 
+// TODO: save in local storage
+const pagination = reactive({ limit: 20, page: 1 })
+
+const countDocuments = computedAsync(async () => {
+  return await rpc.countDocuments(props.collection)
+})
+
 const documents = computedAsync(async () => {
-  return await rpc.listDocuments(props.collection)
+  return await rpc.listDocuments(props.collection, pagination)
+})
+
+watch(pagination, async () => {
+  documents.value = await rpc.listDocuments(props.collection, pagination)
 })
 
 const schema = computedAsync<any>(async () => {
@@ -71,7 +82,7 @@ async function saveDocument(document: any) {
   await rpc.createDocument(props.collection, document)
   editing.value = false
   selectedDocument.value = undefined
-  documents.value = await rpc.listDocuments(props.collection)
+  documents.value = await rpc.listDocuments(props.collection, pagination)
 }
 
 async function updateDocument() {
@@ -79,7 +90,7 @@ async function updateDocument() {
   await rpc.updateDocument(props.collection, selectedDocument.value)
   editing.value = false
   selectedDocument.value = undefined
-  documents.value = await rpc.listDocuments(props.collection)
+  documents.value = await rpc.listDocuments(props.collection, pagination)
 }
 
 function discardEditing() {
@@ -89,8 +100,10 @@ function discardEditing() {
 
 async function deleteDocument(document: any) {
   rpc.deleteDocument(props.collection, document._id)
-  documents.value = await rpc.listDocuments(props.collection)
+  documents.value = await rpc.listDocuments(props.collection, pagination)
 }
+
+const copy = useCopy()
 </script>
 
 <template>
@@ -101,9 +114,29 @@ async function deleteDocument(document: any) {
           Add Document
         </NButton>
       </template>
-      <div op50>
-        <span v-if="search">{{ filtered.length }} matched · </span>
-        <span>{{ documents?.length }} documents in total</span>
+      <div v-if="countDocuments" flex items-center>
+        <div op50>
+          <span v-if="search">{{ filtered.length }} matched · </span>
+          <span>{{ documents?.length }} of {{ countDocuments }} documents in total</span>
+        </div>
+        <div flex-auto />
+        <div flex gap-2>
+          <NSelect v-if="pagination.limit !== 0" v-model="pagination.page">
+            <option v-for="i in Math.ceil(countDocuments / pagination.limit)" :key="i" :value="i">
+              page:
+              {{ i }}
+            </option>
+          </NSelect>
+          <NSelect v-model="pagination.limit">
+            <option v-for="i in [1, 2, 3, 4, 5]" :key="i" :value="i * 10">
+              show:
+              {{ i * 10 }}
+            </option>
+            <option :value="0">
+              show all
+            </option>
+          </NSelect>
+        </div>
       </div>
     </Navbar>
     <table v-if="documents?.length || selectedDocument" w-full mb10 :class="{ 'editing-mode': editing }">
@@ -118,7 +151,6 @@ async function deleteDocument(document: any) {
         </tr>
       </thead>
       <tbody>
-        <!-- hover-bg-green hover-bg-opacity-5 hover-text-green cursor-pointer -->
         <tr v-for="document in filtered" :key="document._id" :class="{ isEditing: editing && selectedDocument._id === document._id }">
           <td v-for="field of fields" :key="field" @dblclick="editDocument(document)">
             <template v-if="editing && selectedDocument._id === document._id">
@@ -129,7 +161,7 @@ async function deleteDocument(document: any) {
             </span>
           </td>
           <td class="actions">
-            <div flex justify-center gap2>
+            <div flex justify-center gap2 class="group">
               <template v-if="editing && selectedDocument._id === document._id">
                 <NIconButton icon="carbon-save" @click="updateDocument" />
                 <NIconButton icon="carbon-close" @click="discardEditing" />
@@ -138,6 +170,7 @@ async function deleteDocument(document: any) {
                 <NIconButton icon="carbon-edit" @click="editDocument(document)" />
                 <NIconButton icon="carbon-delete" @click="deleteDocument(document)" />
                 <NIconButton icon="carbon-document-multiple-02" @click="saveDocument(document)" />
+                <NIconButton absolute right-4 opacity-0 group-hover="opacity-100" transition-all icon="carbon-copy" @click="copy(JSON.stringify(document))" />
               </template>
             </div>
           </td>
