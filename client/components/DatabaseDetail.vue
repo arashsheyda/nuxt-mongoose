@@ -92,18 +92,6 @@ async function deleteDocument(document: any) {
   rpc.deleteDocument(props.collection, document._id)
   documents.value = await rpc.listDocuments(props.collection)
 }
-
-const fieldRefs = ref<any>([])
-function handleClickOutside(event: any) {
-  if (editing.value && selectedDocument.value) {
-    const isClickOutside = fieldRefs.value.every((ref: any) => !ref.contains(event.target))
-    if (isClickOutside) {
-      editing.value = false
-      selectedDocument.value = null
-    }
-  }
-}
-// useEventListener('click', handleClickOutside)
 </script>
 
 <template>
@@ -133,7 +121,7 @@ function handleClickOutside(event: any) {
       <tbody>
         <!-- hover-bg-green hover-bg-opacity-5 hover-text-green cursor-pointer -->
         <tr v-for="document in filtered" :key="document._id" :class="{ isEditing: editing && selectedDocument._id === document._id }">
-          <td v-for="field of fields" :key="field" ref="fieldRefs" @dblclick="editDocument(document)">
+          <td v-for="field of fields" :key="field" @dblclick="editDocument(document)">
             <template v-if="editing && selectedDocument._id === document._id">
               <input v-model="selectedDocument[field]" :disabled="field === '_id'">
             </template>
