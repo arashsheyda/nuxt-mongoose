@@ -25,9 +25,9 @@ export function setupResourceRPC({ nuxt, rpc }: NuxtDevtoolsServerContext): any 
         const routeTypes = {
           index: 'index.get.ts',
           create: 'create.post.ts',
-          show: (by: string) => `${by}.get.ts`,
-          put: (by: string) => `${by}.put.ts`,
-          delete: (by: string) => `${by}.delete.ts`,
+          show: (by: string) => `[${by}].get.ts`,
+          put: (by: string) => `[${by}].put.ts`,
+          delete: (by: string) => `[${by}].delete.ts`,
         }
         resources.forEach((route: Resource) => {
           const fileName = typeof routeTypes[route.type] === 'function'
