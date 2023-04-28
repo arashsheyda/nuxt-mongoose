@@ -1,4 +1,4 @@
-![nuxt-mongoose](./docs/public/nuxt-mongoose.svg)
+![nuxt-mongoose](https://github.com/arashsheyda/nuxt-mongoose/blob/main/docs/public/nuxt-mongoose.svg)
 
 <div align="center">
   <h1>Nuxt Mongoose</h1>
