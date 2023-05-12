@@ -1,6 +1,28 @@
 # Changelog
 
 
+## v0.0.5
+
+[compare changes](https://github.com/arashsheyda/nuxt-mongoose/compare/v0.0.4...v0.0.5)
+
+
+### 🩹 Fixes
+
+  - Update readme ([e0f56df](https://github.com/arashsheyda/nuxt-mongoose/commit/e0f56df))
+  - Add brackets ([f008197](https://github.com/arashsheyda/nuxt-mongoose/commit/f008197))
+  - Update logo ([c8bcc9c](https://github.com/arashsheyda/nuxt-mongoose/commit/c8bcc9c))
+  - Update icon link ([c967d0b](https://github.com/arashsheyda/nuxt-mongoose/commit/c967d0b))
+  - Update icon link ([b4fa9f5](https://github.com/arashsheyda/nuxt-mongoose/commit/b4fa9f5))
+
+### 🏡 Chore
+
+  - Update dependencies ([ecac456](https://github.com/arashsheyda/nuxt-mongoose/commit/ecac456))
+
+### ❤️  Contributors
+
+- Arashsheyda <sheidaeearash1999@gmail.com>
+- Arash
+
 ## v0.0.4
 
 [compare changes](https://github.com/arashsheyda/nuxt-mongoose/compare/v0.0.3...v0.0.4)
