@@ -83,17 +83,6 @@ export const User = defineMongooseModel({
 })
 ```
 
-### useMongoose
-
-This composable returns the Mongoose DB instance. Example usage:
-
-```vue
-<script lang="ts" setup>
-const mongoose = useMongoose()
-const user = await mongoose.db.collection('users').findOne()
-</script>
-```
-
 ## License
 
 [MIT License](./LICENSE)
