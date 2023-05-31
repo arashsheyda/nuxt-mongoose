@@ -1,6 +1,14 @@
-import { addImportsDir, addServerPlugin, addTemplate, createResolver, defineNuxtModule, logger } from '@nuxt/kit'
+import {
+  addImportsDir,
+  addServerPlugin,
+  addTemplate,
+  createResolver,
+  defineNuxtModule,
+  logger,
+} from '@nuxt/kit'
 import { pathExists } from 'fs-extra'
 import { tinyws } from 'tinyws'
+import { join } from 'pathe'
 import { defu } from 'defu'
 import sirv from 'sirv'
 
@@ -8,6 +16,8 @@ import { PATH_CLIENT, PATH_ENTRY } from './constants'
 import type { ModuleOptions } from './types'
 
 import { setupRPC } from './server-rpc'
+
+export type { ModuleOptions }
 
 export default defineNuxtModule<ModuleOptions>({
   meta: {
@@ -18,20 +28,25 @@ export default defineNuxtModule<ModuleOptions>({
     uri: process.env.MONGODB_URI as string,
     devtools: true,
     options: {},
+    modelsDir: 'models',
   },
   setup(options, nuxt) {
     const { resolve } = createResolver(import.meta.url)
+    const runtimeConfig = nuxt.options.runtimeConfig
 
     addImportsDir(resolve('./runtime/composables'))
 
-    if (!options.uri)
-      console.warn('Missing `MONGODB_URI` in `.env`')
+    if (!options.uri) {
+      logger.warn('Missing `MONGODB_URI` in `.env`')
+      return
+    }
 
     // Runtime Config
-    nuxt.options.runtimeConfig.mongoose = defu(nuxt.options.runtimeConfig.mongoose || {}, {
+    runtimeConfig.mongoose = defu(runtimeConfig.mongoose || {}, {
       uri: options.uri,
       options: options.options,
       devtools: options.devtools,
+      modelsDir: options.modelsDir,
     })
 
     // Setup devtools UI
@@ -89,6 +104,16 @@ export default defineNuxtModule<ModuleOptions>({
 
     nuxt.hook('prepare:types', (options) => {
       options.references.push({ path: resolve(nuxt.options.buildDir, 'types/nuxt-mongoose.d.ts') })
+    })
+
+    // Nitro auto imports
+    nuxt.hook('nitro:config', (_nitroConfig) => {
+      if (_nitroConfig.imports) {
+        _nitroConfig.imports.dirs = _nitroConfig.imports.dirs || []
+        _nitroConfig.imports.dirs?.push(
+          join(nuxt.options.serverDir, runtimeConfig.mongoose.modelsDir),
+        )
+      }
     })
 
     // Add server-plugin for database connection

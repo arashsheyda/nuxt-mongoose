@@ -36,9 +36,12 @@ export default defineNuxtConfig({
   mongoose: {
     uri: 'process.env.MONGODB_URI',
     options: {},
+    modelsDir: 'models',
   },
 })
 ```
+
+by default, `nuxt-mongoose` will auto-import your schemas from the `models` directory from `server` directory. You can change this behavior by setting the `modelsDir` option.
 
 * for more information about the options, please refer to the [Mongoose documentation](https://mongoosejs.com/docs/connections.html#options). *
 
