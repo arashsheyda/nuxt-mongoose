@@ -27,8 +27,8 @@ export default defineNuxtModule<ModuleOptions>({
     if (!options.uri)
       console.warn('Missing `MONGODB_URI` in `.env`')
 
-    // Public runtimeConfig
-    nuxt.options.runtimeConfig.public.mongoose = defu(nuxt.options.runtimeConfig.public.mongoose || {}, {
+    // Runtime Config
+    nuxt.options.runtimeConfig.mongoose = defu(nuxt.options.runtimeConfig.mongoose || {}, {
       uri: options.uri,
       options: options.options,
       devtools: options.devtools,

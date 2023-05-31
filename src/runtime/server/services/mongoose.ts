@@ -5,7 +5,7 @@ import { logger } from '@nuxt/kit'
 import { useRuntimeConfig } from '#imports'
 
 export async function defineMongooseConnection({ uri, options }: { uri?: string; options?: ConnectOptions } = {}): Promise<void> {
-  const config = useRuntimeConfig().public.mongoose
+  const config = useRuntimeConfig().mongoose
   const mongooseUri = uri || config.uri
   const mongooseOptions = options || config.options
 
