@@ -1,6 +1,28 @@
 # Changelog
 
 
+## v0.0.7
+
+[compare changes](https://github.com/arashsheyda/nuxt-mongoose/compare/v0.0.6...v0.0.7)
+
+
+### 🚀 Enhancements
+
+  - Auto-import schema files ([205435e](https://github.com/arashsheyda/nuxt-mongoose/commit/205435e))
+
+### 🩹 Fixes
+
+  - Mongoose config ([cf48c2b](https://github.com/arashsheyda/nuxt-mongoose/commit/cf48c2b))
+
+### 🏡 Chore
+
+  - Improve logger message ([86c3c29](https://github.com/arashsheyda/nuxt-mongoose/commit/86c3c29))
+  - Update dependencies ([774d4b6](https://github.com/arashsheyda/nuxt-mongoose/commit/774d4b6))
+
+### ❤️  Contributors
+
+- Arashsheyda <sheidaeearash1999@gmail.com>
+
 ## v0.0.6
 
 [compare changes](https://github.com/arashsheyda/nuxt-mongoose/compare/v0.0.5...v0.0.6)
