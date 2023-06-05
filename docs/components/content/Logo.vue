@@ -1,0 +1,12 @@
+<template>
+  <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 235.5 33.2">
+    <rect width="32" height="32" rx="7.5" style="fill:#023430" />
+    <path d="M21.4,13.4C20.1,7.6,17.3,6.1,16.6,5a10.1,10.1,0,0,1-.7-1.5,1.6,1.6,0,0,1-.6,1.2,14.1,14.1,0,0,0-4.9,10.5c-.3,6.1,4.5,9.9,5.1,10.3a1.4,1.4,0,0,0,1.4-.2,12.1,12.1,0,0,0,4.5-11.9" style="fill:#10aa50" />
+    <path d="M16.1,22.2a17.8,17.8,0,0,1-.5,3.3s.2,1.5.3,3h.5a30.6,30.6,0,0,1,.5-3.2C16.3,25,16.1,23.6,16.1,22.2Z" style="fill:#b8c4c2" />
+    <path d="M16.9,25.3c-.6-.3-.8-1.7-.8-3.1s.2-4.3.1-6.5,0-10.7-.3-12.1L16.6,5c.7,1.1,3.5,2.6,4.8,8.4A12,12,0,0,1,16.9,25.3Z" style="fill:#12924f" />
+    <text transform="translate(32.8 25.6)" style="font-size:25.818214416503906px;font-family:OpenSans-Bold, Open Sans;font-weight:700">
+      <tspan fill="currentColor" x="4" y="0">Nuxt</tspan>
+      <tspan x="70.8" y="0" style="fill:#10aa50">Mongoose</tspan>
+    </text>
+  </svg>
+</template>
