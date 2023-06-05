@@ -3,6 +3,5 @@ export default defineNuxtConfig({
 
   modules: [
     '@nuxthq/studio',
-    '@nuxt/devtools',
   ],
 })
