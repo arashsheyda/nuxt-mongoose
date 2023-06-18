@@ -5,6 +5,8 @@ import { generateApiRoute, generateSchemaFile } from '../utils/schematics'
 import { capitalize, pluralize, singularize } from '../utils/formatting'
 
 export function setupResourceRPC({ nuxt, rpc }: NuxtDevtoolsServerContext): any {
+  const runtimeConfig = nuxt.options.runtimeConfig
+
   return {
     // TODO: maybe separate functions
     async generateResource(collection: Collection, resources: Resource[]) {
@@ -13,9 +15,9 @@ export function setupResourceRPC({ nuxt, rpc }: NuxtDevtoolsServerContext): any 
       const dbName = capitalize(singular)
 
       if (collection.fields) {
-        const schemaPath = resolve(nuxt.options.serverDir, 'utils/models', `${singular}.schema.ts`)
+        const schemaPath = resolve(nuxt.options.serverDir, runtimeConfig.mongoose.modelsDir, `${singular}.schema.ts`)
         if (!fs.existsSync(schemaPath)) {
-          fs.ensureDirSync(resolve(nuxt.options.serverDir, 'utils/models'))
+          fs.ensureDirSync(resolve(nuxt.options.serverDir, runtimeConfig.mongoose.modelsDir))
           fs.writeFileSync(schemaPath, generateSchemaFile(dbName, collection.fields))
         }
 
@@ -51,7 +53,7 @@ export function setupResourceRPC({ nuxt, rpc }: NuxtDevtoolsServerContext): any 
     async resourceSchema(collection: string) {
       // TODO: use magicast
       const singular = singularize(collection).toLowerCase()
-      const schemaPath = resolve(nuxt.options.serverDir, 'utils/models', `${singular}.schema.ts`)
+      const schemaPath = resolve(nuxt.options.serverDir, runtimeConfig.mongoose.modelsDir, `${singular}.schema.ts`)
       if (fs.existsSync(schemaPath)) {
         const content = fs.readFileSync(schemaPath, 'utf-8').match(/schema: \{(.|\n)*\}/g)
         if (content) {
