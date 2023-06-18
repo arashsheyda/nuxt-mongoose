@@ -1,4 +1,8 @@
-lockfileVersion: '6.0'
+lockfileVersion: '6.1'
+
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
 
 dependencies:
   '@nuxt/devtools-kit':
@@ -25,6 +29,9 @@ dependencies:
   mongoose:
     specifier: ^7.2.2
     version: 7.2.2
+  ofetch:
+    specifier: ^1.1.0
+    version: 1.1.0
   pathe:
     specifier: ^1.1.0
     version: 1.1.0
@@ -34,9 +41,9 @@ dependencies:
   sirv:
     specifier: ^2.0.3
     version: 2.0.3
-  tinyws:
-    specifier: ^0.1.0
-    version: 0.1.0(ws@8.13.0)
+  vite-hot-client:
+    specifier: ^0.2.1
+    version: 0.2.1(vite@4.3.9)
   ws:
     specifier: ^8.13.0
     version: 8.13.0
@@ -1150,7 +1157,7 @@ packages:
       mri: 1.2.0
       nanoid: 4.0.2
       node-fetch: 3.3.1
-      ofetch: 1.0.1
+      ofetch: 1.1.0
       parse-git-config: 3.0.0
       rc9: 2.1.0
       std-env: 3.3.3
@@ -1180,7 +1187,7 @@ packages:
       defu: 6.1.2
       execa: 7.1.1
       get-port-please: 3.0.1
-      ofetch: 1.0.1
+      ofetch: 1.1.0
       pathe: 1.1.0
       ufo: 1.1.2
       vitest: 0.31.2(sass@1.62.1)
@@ -1820,7 +1827,7 @@ packages:
     dependencies:
       '@iconify/utils': 2.1.5
       '@unocss/core': 0.52.5
-      ofetch: 1.0.1
+      ofetch: 1.1.0
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -1857,7 +1864,7 @@ packages:
     resolution: {integrity: sha512-oynjtFC05NQM1RXith7LM0MCQGqy4yF0tFRnpM8zmq3p6L7XPFitL5Lmx/walXOB7bw9QSL+gMjamdpEo+KjQg==}
     dependencies:
       '@unocss/core': 0.52.5
-      ofetch: 1.0.1
+      ofetch: 1.1.0
     dev: true
 
   /@unocss/preset-wind@0.52.5:
@@ -2900,7 +2907,7 @@ packages:
       execa: 7.1.1
       mri: 1.2.0
       node-fetch-native: 1.1.1
-      ofetch: 1.0.1
+      ofetch: 1.1.0
       open: 9.1.0
       pathe: 1.1.0
       pkg-types: 1.0.3
@@ -4385,7 +4392,7 @@ packages:
       defu: 6.1.2
       https-proxy-agent: 5.0.1
       mri: 1.2.0
-      node-fetch-native: 1.1.1
+      node-fetch-native: 1.2.0
       pathe: 1.1.0
       tar: 6.1.15
     transitivePeerDependencies:
@@ -5827,8 +5834,8 @@ packages:
       mime: 3.0.0
       mlly: 1.3.0
       mri: 1.2.0
-      node-fetch-native: 1.1.1
-      ofetch: 1.0.1
+      node-fetch-native: 1.2.0
+      ofetch: 1.1.0
       ohash: 1.1.2
       openapi-typescript: 6.2.6
       pathe: 1.1.0
@@ -5868,6 +5875,10 @@ packages:
 
   /node-fetch-native@1.1.1:
     resolution: {integrity: sha512-9VvspTSUp2Sxbl+9vbZTlFGq9lHwE8GDVVekxx6YsNd1YH59sb3Ba8v3Y3cD8PkLNcileGGcA21PFjVl0jzDaw==}
+    dev: true
+
+  /node-fetch-native@1.2.0:
+    resolution: {integrity: sha512-5IAMBTl9p6PaAjYCnMv5FmqIF6GcZnawAVnzaCG0rX2aYZJ4CxEkZNtVPuTRug7fL7wyM5BQYTlAzcyMPi6oTQ==}
 
   /node-fetch@2.6.11:
     resolution: {integrity: sha512-4I6pdBY1EthSqDmJkiNk3JIT8cswwR9nfeW/cPdUagJYEQG7R95WRH74wpz7ma8Gh/9dI9FP+OU+0E4FvtA55w==}
@@ -6106,7 +6117,7 @@ packages:
       nitropack: 2.4.1
       nuxi: 3.5.2
       nypm: 0.2.0
-      ofetch: 1.0.1
+      ofetch: 1.1.0
       ohash: 1.1.2
       pathe: 1.1.0
       perfect-debounce: 1.0.0
@@ -6200,11 +6211,11 @@ packages:
       es-abstract: 1.21.2
     dev: true
 
-  /ofetch@1.0.1:
-    resolution: {integrity: sha512-icBz2JYfEpt+wZz1FRoGcrMigjNKjzvufE26m9+yUiacRQRHwnNlGRPiDnW4op7WX/MR6aniwS8xw8jyVelF2g==}
+  /ofetch@1.1.0:
+    resolution: {integrity: sha512-yjq2ZUUMto1ITpge2J5vNlUfteLzxfHn9aJC55WtVGD3okKwSfPoLaKpcHXmmKd2kZZUGo+jdkFuuj09Blyeig==}
     dependencies:
       destr: 1.2.2
-      node-fetch-native: 1.1.1
+      node-fetch-native: 1.2.0
       ufo: 1.1.2
 
   /ohash@1.1.2:
@@ -7661,15 +7672,6 @@ packages:
     engines: {node: '>=14.0.0'}
     dev: true
 
-  /tinyws@0.1.0(ws@8.13.0):
-    resolution: {integrity: sha512-6WQ2FlFM7qm6lAXxeKnzsAEfmnBHz5W5EwonNs52V0++YfK1IoCCAWM429afcChFE9BFrDgOFnq7ligaWMsa/A==}
-    engines: {node: '>=12.4'}
-    peerDependencies:
-      ws: '>=8'
-    dependencies:
-      ws: 8.13.0
-    dev: false
-
   /titleize@3.0.0:
     resolution: {integrity: sha512-KxVu8EYHDPBdUYdKZdKtU2aj2XfEx9AfjXxE/Aj0vT06w2icA09Vus1rh6eSu1y01akYg6BjIK/hxyLJINoMLQ==}
     engines: {node: '>=12'}
@@ -7887,7 +7889,7 @@ packages:
       consola: 3.1.0
       defu: 6.1.2
       mime: 3.0.0
-      node-fetch-native: 1.1.1
+      node-fetch-native: 1.2.0
       pathe: 1.1.0
 
   /unhead@1.1.27:
@@ -8064,8 +8066,8 @@ packages:
       listhen: 1.0.4
       lru-cache: 9.1.1
       mri: 1.2.0
-      node-fetch-native: 1.1.1
-      ofetch: 1.0.1
+      node-fetch-native: 1.2.0
+      ofetch: 1.1.0
       ufo: 1.1.2
     transitivePeerDependencies:
       - supports-color
@@ -8151,6 +8153,14 @@ packages:
     dependencies:
       builtins: 5.0.1
     dev: true
+
+  /vite-hot-client@0.2.1(vite@4.3.9):
+    resolution: {integrity: sha512-UqsQdw5PODnSrTDT85nr09RlhV0gkm2Xat74U2l8JZ5R8M/wTCggWSyPjxbLk5fbbVnWfr0JwW+vVoosjQnYrA==}
+    peerDependencies:
+      vite: ^2.6.0 || ^3.0.0 || ^4.0.0
+    dependencies:
+      vite: 4.3.9(@types/node@20.2.5)(sass@1.62.1)
+    dev: false
 
   /vite-node@0.31.2(@types/node@20.2.5)(sass@1.62.1):
     resolution: {integrity: sha512-NvoO7+zSvxROC4JY8cyp/cO7DHAX3dwMOHQVDdNtCZ4Zq8wInnR/bJ/lfsXqE6wrUgtYCE5/84qHS+A7vllI3A==}

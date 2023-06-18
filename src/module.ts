@@ -2,17 +2,19 @@ import {
   addImportsDir,
   addServerPlugin,
   addTemplate,
+  addVitePlugin,
   createResolver,
   defineNuxtModule,
   logger,
 } from '@nuxt/kit'
 import { pathExists } from 'fs-extra'
-import { tinyws } from 'tinyws'
 import { join } from 'pathe'
 import { defu } from 'defu'
 import sirv from 'sirv'
+import { $fetch } from 'ofetch'
+import { version } from '../package.json'
 
-import { PATH_CLIENT, PATH_ENTRY } from './constants'
+import { PATH_CLIENT } from './constants'
 import type { ModuleOptions } from './types'
 
 import { setupRPC } from './server-rpc'
@@ -33,6 +35,13 @@ export default defineNuxtModule<ModuleOptions>({
   setup(options, nuxt) {
     const { resolve } = createResolver(import.meta.url)
     const runtimeConfig = nuxt.options.runtimeConfig
+
+    if (nuxt.options.dev) {
+      $fetch('https://registry.npmjs.org/nuxt-mongoose/latest').then((release) => {
+        if (release.version > version)
+          logger.info(`A new version of Nuxt Mongoose (v${release.version}) is available: https://github.com/arashsheyda/nuxt-mongoose/releases/latest`)
+      }).catch(() => {})
+    }
 
     addImportsDir(resolve('./runtime/composables'))
 
@@ -58,11 +67,11 @@ export default defineNuxtModule<ModuleOptions>({
     }
 
     const clientPath = distResolve('./client')
-    const { middleware: rpcMiddleware } = setupRPC(nuxt, options)
+    const { vitePlugin } = setupRPC(nuxt, options)
+
+    addVitePlugin(vitePlugin)
 
     nuxt.hook('vite:serverCreated', async (server) => {
-      server.middlewares.use(PATH_ENTRY, tinyws() as any)
-      server.middlewares.use(PATH_ENTRY, rpcMiddleware as any)
       if (await pathExists(clientPath))
         server.middlewares.use(PATH_CLIENT, sirv(clientPath, { dev: true, single: true }))
     })

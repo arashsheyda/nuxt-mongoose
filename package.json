@@ -14,10 +14,6 @@
       "require": "./module.cjs",
       "import": "./dist/module.mjs"
     },
-    "./types": {
-      "types": "./dist/types.d.ts",
-      "import": "./dist/types.mjs"
-    },
     "./*": "./*"
   },
   "main": "./module.cjs",
@@ -46,10 +42,11 @@
     "flatted": "^3.2.7",
     "fs-extra": "^11.1.1",
     "mongoose": "^7.2.2",
+    "ofetch": "^1.1.0",
     "pathe": "^1.1.0",
     "pluralize": "^8.0.0",
     "sirv": "^2.0.3",
-    "tinyws": "^0.1.0",
+    "vite-hot-client": "^0.2.1",
     "ws": "^8.13.0"
   },
   "devDependencies": {

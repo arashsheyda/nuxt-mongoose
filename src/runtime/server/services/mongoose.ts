@@ -11,7 +11,7 @@ export async function defineMongooseConnection({ uri, options }: { uri?: string;
 
   try {
     await mongoose.connect(mongooseUri, { ...mongooseOptions })
-    logger.info('Connected to mongoose database')
+    logger.info('Connected to MONGODB')
   }
   catch (err) {
     logger.error('Error connecting to database', err)

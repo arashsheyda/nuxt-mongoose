@@ -81,8 +81,9 @@ function editDocument(document: any) {
 async function saveDocument(document: any, create = true) {
   const method = create ? rpc.createDocument : rpc.updateDocument
   const newDocument = await method(props.collection, document)
+  // TODO: show toast
   if (newDocument?.error)
-    return alert(newDocument.error.message)
+    return
 
   if (create) {
     if (!documents.value.length) {
@@ -105,8 +106,9 @@ function discardEditing() {
 
 async function deleteDocument(document: any) {
   const newDocument = await rpc.deleteDocument(props.collection, document._id)
+  // TODO: show toast
   if (newDocument.deletedCount === 0)
-    return alert('Failed to delete document')
+    return
 
   documents.value = documents.value.filter((doc: any) => doc._id !== document._id)
 }
