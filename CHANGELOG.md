@@ -1,6 +1,44 @@
 # Changelog
 
 
+## v0.0.8
+
+[compare changes](https://github.com/arashsheyda/nuxt-mongoose/compare/v0.0.7...v0.0.8)
+
+
+### 🚀 Enhancements
+
+  - Documentation ([6ca94dc](https://github.com/arashsheyda/nuxt-mongoose/commit/6ca94dc))
+
+### 🩹 Fixes
+
+  - Module options type ([182b760](https://github.com/arashsheyda/nuxt-mongoose/commit/182b760))
+  - Run studio action only for docs ([33bb3cc](https://github.com/arashsheyda/nuxt-mongoose/commit/33bb3cc))
+  - Resource generator modelsDir output ([1c36087](https://github.com/arashsheyda/nuxt-mongoose/commit/1c36087))
+
+### 💅 Refactors
+
+  - Reuse vite's websocket ([aaef56c](https://github.com/arashsheyda/nuxt-mongoose/commit/aaef56c))
+
+### 📖 Documentation
+
+  - Remove devtools ([6c057d4](https://github.com/arashsheyda/nuxt-mongoose/commit/6c057d4))
+  - **devtools:** Demo video ([2ba8bda](https://github.com/arashsheyda/nuxt-mongoose/commit/2ba8bda))
+  - Style ([23ec198](https://github.com/arashsheyda/nuxt-mongoose/commit/23ec198))
+  - Favicon ([9e867fc](https://github.com/arashsheyda/nuxt-mongoose/commit/9e867fc))
+
+### 🏡 Chore
+
+  - Playground example ([3356ffd](https://github.com/arashsheyda/nuxt-mongoose/commit/3356ffd))
+  - **deployment:** Add workflow file ([00259fc](https://github.com/arashsheyda/nuxt-mongoose/commit/00259fc))
+  - Update cover ([487cca5](https://github.com/arashsheyda/nuxt-mongoose/commit/487cca5))
+
+### ❤️  Contributors
+
+- Arash 
+- Arash Sheyda <sheidaeearash1999@gmail.com>
+- Arashsheyda <sheidaeearash1999@gmail.com>
+
 ## v0.0.7
 
 [compare changes](https://github.com/arashsheyda/nuxt-mongoose/compare/v0.0.6...v0.0.7)
