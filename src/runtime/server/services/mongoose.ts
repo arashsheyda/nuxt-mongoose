@@ -18,7 +18,7 @@ export async function defineMongooseConnection({ uri, options }: { uri?: string;
   }
 }
 
-export function defineMongooseModel(nameOrOptions: string | { name: string; schema: SchemaDefinition; options?: SchemaOptions }, schema?: SchemaDefinition, options?: SchemaOptions): Model<any> {
+export function defineMongooseModel<T>(nameOrOptions: string | { name: string; schema: SchemaDefinition; options?: SchemaOptions }, schema?: SchemaDefinition, options?: SchemaOptions) {
   let name: string
   if (typeof nameOrOptions === 'string') {
     name = nameOrOptions
@@ -29,8 +29,8 @@ export function defineMongooseModel(nameOrOptions: string | { name: string; sche
     options = nameOrOptions.options
   }
 
-  const newSchema = new mongoose.Schema({
+  const newSchema = new mongoose.Schema<T>({
     ...schema,
   }, { ...options })
-  return mongoose.model(name, newSchema)
+  return mongoose.model<T>(name, newSchema)
 }
