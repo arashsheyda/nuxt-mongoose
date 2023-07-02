@@ -18,7 +18,7 @@ export async function defineMongooseConnection({ uri, options }: { uri?: string;
   }
 }
 
-export function defineMongooseModel<T>(nameOrOptions: string | { name: string; schema: SchemaDefinition; options?: SchemaOptions }, schema?: SchemaDefinition, options?: SchemaOptions) {
+export function defineMongooseModel<T>(nameOrOptions: string | { name: string; schema: SchemaDefinition; options?: SchemaOptions }, schema?: SchemaDefinition, options?: SchemaOptions): Model<T> {
   let name: string
   if (typeof nameOrOptions === 'string') {
     name = nameOrOptions
