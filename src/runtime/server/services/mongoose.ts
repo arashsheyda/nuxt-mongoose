@@ -11,10 +11,10 @@ export async function defineMongooseConnection({ uri, options }: { uri?: string;
 
   try {
     await mongoose.connect(mongooseUri, { ...mongooseOptions })
-    logger.info('Connected to MONGODB')
+    logger.success('Connected to MongoDB database')
   }
   catch (err) {
-    logger.error('Error connecting to database', err)
+    logger.error('Error connecting to MongoDB database', err)
   }
 }
 
