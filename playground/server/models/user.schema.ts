@@ -7,10 +7,20 @@ export const UserSchema = defineMongooseModel({
       type: 'string',
       required: true,
     },
-    slug: {
+    email: {
       type: 'string',
       required: true,
-      unique: true,
+      unique: false,
     },
+    password: {
+      type: 'string',
+      required: true,
+    },
+  },
+  hooks(schema) {
+    schema.pre('save', function (this, next) {
+      this.password = `hash.${this.password}.${Math.random()}`
+      next()
+    })
   },
 })
