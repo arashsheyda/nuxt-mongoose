@@ -9,6 +9,7 @@ export const wsError = ref<any>()
 export const wsConnectingDebounced = useDebounce(wsConnecting, 2000)
 
 const connectPromise = connectVite()
+// eslint-disable-next-line @typescript-eslint/ban-types
 let onMessage: Function = () => {}
 
 export const clientFunctions = {

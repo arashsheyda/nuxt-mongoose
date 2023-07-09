@@ -25,7 +25,7 @@ export interface ClientFunctions {
 
 export interface Collection {
   name: string
-  fields?: {}[]
+  fields?: object[]
 }
 
 export interface Resource {

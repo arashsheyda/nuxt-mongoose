@@ -11,5 +11,5 @@ export interface NuxtDevtoolsServerContext {
 
   refresh: (event: keyof ServerFunctions) => void
 
-  extendServerRpc: <ClientFunctions = {}, ServerFunctions = {}>(name: string, functions: ServerFunctions) => BirpcGroup<ClientFunctions, ServerFunctions>
+  extendServerRpc: <ClientFunctions = object, ServerFunctions = object>(name: string, functions: ServerFunctions) => BirpcGroup<ClientFunctions, ServerFunctions>
 }
