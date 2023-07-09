@@ -5,7 +5,7 @@ import { generateApiRoute, generateSchemaFile } from '../utils/schematics'
 import { capitalize, pluralize, singularize } from '../utils/formatting'
 
 export function setupResourceRPC({ nuxt, rpc }: NuxtDevtoolsServerContext): any {
-  const runtimeConfig = nuxt.options.runtimeConfig
+  const runtimeConfig = nuxt.options.runtimeConfig as any
 
   return {
     // TODO: maybe separate functions

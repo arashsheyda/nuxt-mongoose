@@ -34,7 +34,7 @@ export default defineNuxtModule<ModuleOptions>({
   },
   setup(options, nuxt) {
     const { resolve } = createResolver(import.meta.url)
-    const runtimeConfig = nuxt.options.runtimeConfig
+    const runtimeConfig = nuxt.options.runtimeConfig as any
 
     if (nuxt.options.dev) {
       $fetch('https://registry.npmjs.org/nuxt-mongoose/latest').then((release) => {
