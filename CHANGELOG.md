@@ -1,6 +1,41 @@
 # Changelog
 
 
+## v0.0.9
+
+[compare changes](https://github.com/arashsheyda/nuxt-mongoose/compare/v0.0.8...v0.0.9)
+
+### 🚀 Enhancements
+
+- Add possibility to type mongoose model ([#8](https://github.com/arashsheyda/nuxt-mongoose/pull/8))
+- Mongoose schema hooks ([d92a58b](https://github.com/arashsheyda/nuxt-mongoose/commit/d92a58b))
+
+### 🩹 Fixes
+
+- Update connection message in logger ([#10](https://github.com/arashsheyda/nuxt-mongoose/pull/10))
+
+### 📖 Documentation
+
+- **utils:** Add hooks and improve documentation ([647d26d](https://github.com/arashsheyda/nuxt-mongoose/commit/647d26d))
+- **utils:** Fix model options type ([3ff9756](https://github.com/arashsheyda/nuxt-mongoose/commit/3ff9756))
+- Add types link ([9c0e0ba](https://github.com/arashsheyda/nuxt-mongoose/commit/9c0e0ba))
+
+### 🏡 Chore
+
+- Fix defineNitroPlugin patch ([#9](https://github.com/arashsheyda/nuxt-mongoose/pull/9))
+- Example env ([40b8ca9](https://github.com/arashsheyda/nuxt-mongoose/commit/40b8ca9))
+- Fix defineNitroPlugin patch " ([#9](https://github.com/arashsheyda/nuxt-mongoose/pull/9))
+- Update dependencies ([925d382](https://github.com/arashsheyda/nuxt-mongoose/commit/925d382))
+- Lint ([0cdba0d](https://github.com/arashsheyda/nuxt-mongoose/commit/0cdba0d))
+- Fix tsconfig for build time ([e6b8b7d](https://github.com/arashsheyda/nuxt-mongoose/commit/e6b8b7d))
+
+### ❤️  Contributors
+
+- Arash Sheyda <sheidaeearash1999@gmail.com>
+- Arash 
+- Amir-al-mohamad111 
+- Oumar Barry ([@oumarbarry](http://github.com/oumarbarry))
+
 ## v0.0.8
 
 [compare changes](https://github.com/arashsheyda/nuxt-mongoose/compare/v0.0.7...v0.0.8)
