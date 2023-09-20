@@ -5,6 +5,7 @@ import './styles/global.css'
 <template>
   <Html>
     <Body h-screen>
+      <Notification />
       <NuxtLayout>
         <NuxtPage />
       </NuxtLayout>
