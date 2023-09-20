@@ -1,69 +1,75 @@
 {
-  "name": "nuxt-mongoose",
+  "name": "nuxt-mongoose-edge",
   "type": "module",
   "version": "0.0.9",
+  "private": false,
+  "packageManager": "pnpm@8.7.4",
   "description": "Nuxt 3 module for MongoDB with Mongoose",
   "license": "MIT",
+  "funding": "https://github.com/sponsors/arashsheyda",
+  "homepage": "https://nuxt-mongoose.nuxt.space",
   "repository": {
     "type": "git",
     "url": "https://github.com/arashsheyda/nuxt-mongoose"
   },
+  "bugs": {
+    "url": "https://github.com/arashsheyda/nuxt-mongoose/issues"
+  },
+  "keywords": [
+    "nuxt",
+    "mongoose",
+    "mongodb",
+    "devtools"
+  ],
   "exports": {
     ".": {
       "types": "./dist/types.d.ts",
-      "require": "./module.cjs",
-      "import": "./dist/module.mjs"
-    },
-    "./*": "./*"
+      "import": "./dist/module.mjs",
+      "require": "./dist/module.cjs"
+    }
   },
-  "main": "./module.cjs",
+  "build": {
+    "externals": [
+      "ofetch"
+    ]
+  },
+  "main": "./dist/module.cjs",
   "types": "./dist/types.d.ts",
   "files": [
     "dist"
   ],
   "scripts": {
-    "build": "pnpm dev:prepare && pnpm build:module && pnpm build:client",
+    "build": "nuxt-module-build && npm run build:client",
     "build:client": "nuxi generate client",
-    "build:module": "nuxt-build-module",
+    "dev:prepare": "nuxt-module-build --stub && nuxi prepare client",
     "dev": "nuxi dev playground",
-    "dev:prepare": "nuxi prepare client",
-    "dev:prod": "npm run build && pnpm dev",
-    "release": "npm run lint && npm run build && changelogen --release && npm publish && git push --follow-tags",
-    "lint": "eslint .",
-    "test": "vitest run",
-    "test:watch": "vitest watch"
+    "dev:client": "nuxi dev client --port 3300",
+    "dev:prod": "npm run build && npm run dev",
+    "release": "npm run lint && npm run build && changelogen --release && git push --follow-tags && npm publish",
+    "lint": "eslint . --fix"
   },
   "dependencies": {
-    "@nuxt/devtools-kit": "^0.6.7",
-    "@nuxt/kit": "^3.6.2",
-    "@types/fs-extra": "^11.0.1",
-    "birpc": "^0.2.12",
+    "@nuxt/devtools-kit": "^0.8.2",
+    "@nuxt/devtools-ui-kit": "^0.8.2",
+    "@nuxt/kit": "^3.7.1",
+    "@vueuse/core": "^10.4.1",
     "defu": "^6.1.2",
-    "flatted": "^3.2.7",
     "fs-extra": "^11.1.1",
-    "mongoose": "^7.3.2",
-    "ofetch": "^1.1.1",
+    "mongoose": "^7.5.2",
     "pathe": "^1.1.1",
     "pluralize": "^8.0.0",
-    "sirv": "^2.0.3",
-    "vite-hot-client": "^0.2.1",
-    "ws": "^8.13.0"
+    "sirv": "^2.0.3"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^0.39.7",
-    "@nuxt/devtools": "^0.6.7",
-    "@nuxt/devtools-ui-kit": "^0.6.7",
-    "@nuxt/module-builder": "^0.4.0",
-    "@nuxt/schema": "^3.6.2",
-    "@nuxt/test-utils": "^3.6.2",
+    "@antfu/eslint-config": "^0.41.0",
+    "@nuxt/module-builder": "^0.5.1",
+    "@types/fs-extra": "^11.0.2",
     "@types/pluralize": "^0.0.30",
-    "@types/ws": "^8.5.5",
-    "changelogen": "^0.5.4",
-    "eslint": "^8.44.0",
-    "nuxt": "^3.6.2",
-    "sass": "^1.63.6",
+    "changelogen": "^0.5.5",
+    "eslint": "8.48.0",
+    "nuxt": "^3.7.1",
+    "sass": "^1.67.0",
     "sass-loader": "^13.3.2",
-    "splitpanes": "^3.1.5",
-    "vitest": "^0.33.0"
+    "splitpanes": "^3.1.5"
   }
 }
