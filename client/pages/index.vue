@@ -39,7 +39,6 @@ async function refresh() {
   <SplitPanel :min-left="13" :max-left="20">
     <template #left>
       <div px4>
-        {{ selectedCollection }}
         <Navbar v-model:search="search" :placeholder="`${collections?.length ?? '-'} collection in total`" mt2>
           <div flex items-center gap2>
             <NIconButton w-full mb1.5 icon="carbon-reset" title="Refresh" @click="refresh" />
