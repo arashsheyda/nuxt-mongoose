@@ -1,9 +1,8 @@
 import mongoose from 'mongoose'
-import type { NuxtDevtoolsServerContext, ServerFunctions } from '../types'
+import type { DevtoolsServerContext, ServerFunctions } from '../types'
 
-export function setupDatabaseRPC({ options }: NuxtDevtoolsServerContext): any {
-  mongoose.connect(options.uri, options.options)
-
+// eslint-disable-next-line no-empty-pattern
+export function setupDatabaseRPC({}: DevtoolsServerContext) {
   return {
     async readyState() {
       return mongoose.connection.readyState
@@ -62,8 +61,8 @@ export function setupDatabaseRPC({ options }: NuxtDevtoolsServerContext): any {
       const skip = (options.page - 1) * options.limit
       const cursor = mongoose.connection.db.collection(collection).find().skip(skip)
       if (options.limit !== 0)
-        cursor.limit(options.limit)
-      return await cursor.toArray()
+        cursor?.limit(options.limit)
+      return await cursor?.toArray()
     },
     async getDocument(collection: string, document: any) {
       try {

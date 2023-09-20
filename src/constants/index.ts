@@ -1,3 +1,3 @@
-export const PATH = '/__nuxt_mongoose__'
-export const PATH_CLIENT = `${PATH}/client`
-export const WS_EVENT_NAME = 'nuxt:devtools:mongoose:rpc'
+export const CLIENT_PATH = '/__nuxt-mongoose'
+export const CLIENT_PORT = 3300
+export const RPC_NAMESPACE = 'nuxt-mongoose-rpc'

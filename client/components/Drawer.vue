@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import { ref } from 'vue'
+import { onClickOutside, useElementSize } from '@vueuse/core'
+
 const props = defineProps<{
   modelValue?: boolean
   navbar?: HTMLElement
@@ -17,7 +20,7 @@ onClickOutside(el, () => {
   if (props.modelValue && props.autoClose)
     emit('close')
 }, {
-  ignore: ['#open-drawer-right'],
+  ignore: ['a', 'button', 'summary', '[role="dialog"]'],
 })
 </script>
 
@@ -41,7 +44,7 @@ export default {
       ref="el"
       border="l base"
       flex="~ col gap-1"
-      fixed bottom-0 right-0 z-10 z-20 of-auto text-sm backdrop-blur-lg
+      absolute bottom-0 right-0 z-10 z-20 of-auto text-sm glass-effect
       :style="{ top: `${top}px` }"
       v-bind="$attrs"
     >
