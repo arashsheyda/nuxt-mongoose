@@ -1,13 +1,12 @@
 <script lang="ts" setup>
-import { computed, onMounted, ref } from 'vue'
+import { computed, ref } from 'vue'
 import { computedAsync } from '@vueuse/core'
 import { useRouter } from 'nuxt/app'
 import { rpc } from '../composables/rpc'
+import { selectedCollection } from '../composables/state'
 
-const route = useRouter()
 const router = useRouter()
 
-const selectedCollection = ref()
 const drawer = ref(false)
 const search = ref('')
 
@@ -21,16 +20,11 @@ const filtered = computed(() => {
   return collections.value.filter((c: any) => c.name.toLowerCase().includes(search.value.toLowerCase()))
 })
 
-onMounted(() => {
-  // if (route.query.table)
-  //   selectedCollection.value = route.query.table
-})
-
 async function dropCollection(table: any) {
   await rpc.value?.dropCollection(table.name)
   collections.value = await rpc.value?.listCollections()
   if (selectedCollection.value === table.name) {
-    selectedCollection.value = undefined
+    selectedCollection.value = ''
     router.push({ name: 'index' })
   }
 }
@@ -45,6 +39,7 @@ async function refresh() {
   <SplitPanel :min-left="13" :max-left="20">
     <template #left>
       <div px4>
+        {{ selectedCollection }}
         <Navbar v-model:search="search" :placeholder="`${collections?.length ?? '-'} collection in total`" mt2>
           <div flex items-center gap2>
             <NIconButton w-full mb1.5 icon="carbon-reset" title="Refresh" @click="refresh" />
@@ -53,7 +48,14 @@ async function refresh() {
           </div>
         </Navbar>
         <div grid gird-cols-1 my2 mx1>
-          <NuxtLink v-for="table in filtered" :key="table.name" :to="{ name: 'index', query: { table: table.name } }" flex justify-between p2 my1 hover-bg-green hover-bg-opacity-5 hover-text-green rounded-lg :class="{ 'bg-green bg-opacity-5 text-green': selectedCollection === table.name }" @click="selectedCollection = table.name">
+          <NuxtLink
+            v-for="table in filtered"
+            :key="table.name"
+            :to="{ name: 'index', query: { table: table.name } }"
+            flex justify-between p2 my1 hover-bg-green hover-bg-opacity-5 hover-text-green rounded-lg
+            :class="{ 'bg-green bg-opacity-5 text-green': selectedCollection === table.name }"
+            @click="selectedCollection = table.name"
+          >
             <span>
               <NIcon icon="carbon-db2-database" />
               {{ table.name }}
