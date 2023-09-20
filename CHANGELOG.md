@@ -1,43 +1,13 @@
 # Changelog
 
 
-## v1.1.0
+## v1.0.0
 
-[compare changes](https://github.com/arashsheyda/nuxt-mongoose/compare/v0.0.9...v1.1.0)
+[compare changes](https://github.com/arashsheyda/nuxt-mongoose/compare/v0.0.9...v1.0.0)
 
 ### 🚀 Enhancements
 
 - Version 1.0.0 ([#21](https://github.com/arashsheyda/nuxt-mongoose/pull/21))
-
-### 📖 Documentation
-
-- Update docus ([0db6bdd](https://github.com/arashsheyda/nuxt-mongoose/commit/0db6bdd))
-
-### 🏡 Chore
-
-- **release:** V0.0.9 ([033380e](https://github.com/arashsheyda/nuxt-mongoose/commit/033380e))
-
-### ❤️ Contributors
-
-- Arash 
-- Arash Sheyda <arashi.sheyda@gmail.com>
-- Arashsheyda <sheidaeearash1999@gmail.com>
-
-## v0.0.9
-
-[compare changes](https://github.com/arashsheyda/nuxt-mongoose/compare/v0.0.9...v0.0.9)
-
-### 📖 Documentation
-
-- Update docus ([0db6bdd](https://github.com/arashsheyda/nuxt-mongoose/commit/0db6bdd))
-
-### ❤️ Contributors
-
-- Arashsheyda <sheidaeearash1999@gmail.com>
-
-## v0.0.9
-
-[compare changes](https://github.com/arashsheyda/nuxt-mongoose/compare/v0.0.9...v0.0.9)
 
 ### 📖 Documentation
 
@@ -78,7 +48,6 @@
 ### ❤️  Contributors
 
 - Arash Sheyda <sheidaeearash1999@gmail.com>
-- Arash 
 - Amir-al-mohamad111 
 - Oumar Barry ([@oumarbarry](http://github.com/oumarbarry))
 
