@@ -1,4 +1,8 @@
 <script lang="ts" setup>
+import { useRouter } from 'nuxt/app'
+import { computed, reactive, ref } from 'vue'
+import { rpc } from '../composables/rpc'
+
 interface ColumnInterface {
   name: string
   type: string
@@ -115,10 +119,8 @@ const convertedBread = computed(() => {
 const formattedFields = computed(() => {
   return fields.value.map((field) => {
     for (const [key, value] of Object.entries(field)) {
-      if (!value) {
-        // @ts-expect-error - no need for type checking
+      if (!value)
         delete field[key]
-      }
     }
 
     return field
@@ -126,7 +128,7 @@ const formattedFields = computed(() => {
 })
 
 async function generate() {
-  await rpc.generateResource(
+  await rpc.value?.generateResource(
     {
       name: collection.value,
       fields: schema.value ? formattedFields.value : undefined,
@@ -142,6 +144,7 @@ async function generate() {
 const toggleSchema = computed({
   get() {
     if (hasBread.value)
+      // eslint-disable-next-line vue/no-side-effects-in-computed-properties
       return schema.value = true
     return schema.value
   },
@@ -247,7 +250,7 @@ const toggleSchema = computed({
           </div>
           <div flex justify-center gap2>
             <NIconButton icon="carbon-add" n="cyan" @click="addField(index)" />
-            <NIconButton icon="carbon-delete" n="red" @click="removeField(index)" />
+            <NIconButton icon="carbon-trash-can" n="red" @click="removeField(index)" />
           </div>
         </div>
       </div>
@@ -257,5 +260,3 @@ const toggleSchema = computed({
     </NButton>
   </div>
 </template>
-
-<style></style>

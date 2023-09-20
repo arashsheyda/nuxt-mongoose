@@ -1,5 +1,5 @@
 import { resolve } from 'pathe'
-import { PATH_CLIENT } from '../src/constants'
+import { CLIENT_PATH } from '../src/constants'
 
 export default defineNuxtConfig({
   ssr: false,
@@ -22,6 +22,6 @@ export default defineNuxtConfig({
     },
   },
   app: {
-    baseURL: PATH_CLIENT,
+    baseURL: CLIENT_PATH,
   },
 })

@@ -1,5 +1,10 @@
 <script lang="ts" setup>
-const route = useRoute()
+import { computed, onMounted, ref } from 'vue'
+import { computedAsync } from '@vueuse/core'
+import { useRouter } from 'nuxt/app'
+import { rpc } from '../composables/rpc'
+
+const route = useRouter()
 const router = useRouter()
 
 const selectedCollection = ref()
@@ -7,7 +12,7 @@ const drawer = ref(false)
 const search = ref('')
 
 const collections = computedAsync(async () => {
-  return await rpc.listCollections()
+  return await rpc.value?.listCollections()
 })
 
 const filtered = computed(() => {
@@ -17,13 +22,13 @@ const filtered = computed(() => {
 })
 
 onMounted(() => {
-  if (route.query.table)
-    selectedCollection.value = route.query.table
+  // if (route.query.table)
+  //   selectedCollection.value = route.query.table
 })
 
 async function dropCollection(table: any) {
-  await rpc.dropCollection(table.name)
-  collections.value = await rpc.listCollections()
+  await rpc.value?.dropCollection(table.name)
+  collections.value = await rpc.value?.listCollections()
   if (selectedCollection.value === table.name) {
     selectedCollection.value = undefined
     router.push({ name: 'index' })
@@ -31,13 +36,13 @@ async function dropCollection(table: any) {
 }
 
 async function refresh() {
-  collections.value = await rpc.listCollections()
+  collections.value = await rpc.value?.listCollections()
   drawer.value = false
 }
 </script>
 
 <template>
-  <PanelLeftRight :min-left="13" :max-left="20">
+  <SplitPanel :min-left="13" :max-left="20">
     <template #left>
       <div px4>
         <Navbar v-model:search="search" :placeholder="`${collections?.length ?? '-'} collection in total`" mt2>
@@ -54,7 +59,7 @@ async function refresh() {
               {{ table.name }}
             </span>
             <div flex gap2>
-              <NIconButton block n="red" icon="carbon-delete" @click="dropCollection(table)" />
+              <NIconButton block n="red" icon="carbon-trash-can" @click="dropCollection(table)" />
               <!-- <NIconButton icon="carbon-overflow-menu-horizontal" /> -->
             </div>
           </NuxtLink>
@@ -72,8 +77,8 @@ async function refresh() {
         </div>
       </div>
     </template>
-  </PanelLeftRight>
-  <DrawerRight v-model="drawer" style="width: calc(80.5%);" auto-close @close="drawer = false">
+  </SplitPanel>
+  <Drawer v-model="drawer" style="width: calc(80.5%);" auto-close @close="drawer = false">
     <CreateResource @refresh="refresh" />
-  </DrawerRight>
+  </Drawer>
 </template>

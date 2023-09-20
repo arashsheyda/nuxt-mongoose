@@ -1,7 +1,7 @@
 {
-  "name": "nuxt-mongoose-edge",
+  "name": "nuxt-mongoose",
   "type": "module",
-  "version": "0.0.9",
+  "version": "1.0.0",
   "private": false,
   "packageManager": "pnpm@8.7.4",
   "description": "Nuxt 3 module for MongoDB with Mongoose",
@@ -39,13 +39,13 @@
     "dist"
   ],
   "scripts": {
+    "prepare": "nuxt-module-build --stub && nuxi prepare client",
     "build": "nuxt-module-build && npm run build:client",
     "build:client": "nuxi generate client",
-    "dev:prepare": "nuxt-module-build --stub && nuxi prepare client",
     "dev": "nuxi dev playground",
     "dev:client": "nuxi dev client --port 3300",
     "dev:prod": "npm run build && npm run dev",
-    "release": "npm run lint && npm run build && changelogen --release && git push --follow-tags && npm publish",
+    "release": "npm run lint && npm run build && changelogen --release && npm publish",
     "lint": "eslint . --fix"
   },
   "dependencies": {
@@ -56,6 +56,7 @@
     "defu": "^6.1.2",
     "fs-extra": "^11.1.1",
     "mongoose": "^7.5.2",
+    "ofetch": "^1.3.3",
     "pathe": "^1.1.1",
     "pluralize": "^8.0.0",
     "sirv": "^2.0.3"

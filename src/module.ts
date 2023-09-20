@@ -1,25 +1,46 @@
 import {
-  addImportsDir,
   addServerPlugin,
   addTemplate,
-  addVitePlugin,
   createResolver,
   defineNuxtModule,
   logger,
 } from '@nuxt/kit'
-import { pathExists } from 'fs-extra'
+import type { ConnectOptions } from 'mongoose'
+import defu from 'defu'
 import { join } from 'pathe'
-import { defu } from 'defu'
-import sirv from 'sirv'
 import { $fetch } from 'ofetch'
 import { version } from '../package.json'
+import { setupDevToolsUI } from './devtools'
 
-import { PATH_CLIENT } from './constants'
-import type { ModuleOptions } from './types'
-
-import { setupRPC } from './server-rpc'
-
-export type { ModuleOptions }
+export interface ModuleOptions {
+  /**
+   *  The MongoDB URI connection
+   *
+   * @default process.env.MONGODB_URI
+   *
+  */
+  uri: string | undefined
+  /**
+   *  Nuxt DevTools
+   *
+   * @default true
+   *
+  */
+  devtools: boolean
+  /**
+   *  Mongoose Connections
+   *
+   * @default {}
+  */
+  options?: ConnectOptions
+  /**
+   *  Models Directory for auto-import
+   *
+   * @default 'models'
+   *
+  */
+  modelsDir?: string
+}
 
 export default defineNuxtModule<ModuleOptions>({
   meta: {
@@ -27,15 +48,13 @@ export default defineNuxtModule<ModuleOptions>({
     configKey: 'mongoose',
   },
   defaults: {
+    // eslint-disable-next-line n/prefer-global/process
     uri: process.env.MONGODB_URI as string,
     devtools: true,
     options: {},
     modelsDir: 'models',
   },
-  setup(options, nuxt) {
-    const { resolve } = createResolver(import.meta.url)
-    const runtimeConfig = nuxt.options.runtimeConfig as any
-
+  async setup(options, nuxt) {
     if (nuxt.options.dev) {
       $fetch('https://registry.npmjs.org/nuxt-mongoose/latest').then((release) => {
         if (release.version > version)
@@ -43,62 +62,35 @@ export default defineNuxtModule<ModuleOptions>({
       }).catch(() => {})
     }
 
-    addImportsDir(resolve('./runtime/composables'))
-
     if (!options.uri) {
-      logger.warn('Missing `MONGODB_URI` in `.env`')
+      logger.warn('Missing MongoDB URI. You can set it in your `nuxt.config` or in your `.env` as `MONGODB_URI`')
       return
     }
 
-    // Runtime Config
-    runtimeConfig.mongoose = defu(runtimeConfig.mongoose || {}, {
+    const { resolve } = createResolver(import.meta.url)
+    const config = nuxt.options.runtimeConfig as any
+
+    config.mongoose = defu(config.mongoose || {}, {
       uri: options.uri,
       options: options.options,
       devtools: options.devtools,
-      modelsDir: options.modelsDir,
-    })
-
-    // Setup devtools UI
-    const distResolve = (p: string) => {
-      const cwd = resolve('.')
-      if (cwd.endsWith('/dist'))
-        return resolve(p)
-      return resolve(`../dist/${p}`)
-    }
-
-    const clientPath = distResolve('./client')
-    const { vitePlugin } = setupRPC(nuxt, options)
-
-    addVitePlugin(vitePlugin)
-
-    nuxt.hook('vite:serverCreated', async (server) => {
-      if (await pathExists(clientPath))
-        server.middlewares.use(PATH_CLIENT, sirv(clientPath, { dev: true, single: true }))
-    })
-
-    // eslint-disable-next-line @typescript-eslint/prefer-ts-expect-error
-    // @ts-ignore runtime type
-    nuxt.hook('devtools:customTabs', (iframeTabs) => {
-      iframeTabs.push({
-        name: 'mongoose',
-        title: 'Mongoose',
-        icon: 'skill-icons:mongodb',
-        view: {
-          type: 'iframe',
-          src: PATH_CLIENT,
-        },
-      })
+      modelsDir: join(nuxt.options.serverDir, options.modelsDir!),
     })
 
     // virtual imports
-    nuxt.hook('nitro:config', (nitroConfig) => {
-      nitroConfig.alias = nitroConfig.alias || {}
+    nuxt.hook('nitro:config', (_config) => {
+      _config.alias = _config.alias || {}
 
       // Inline module runtime in Nitro bundle
-      nitroConfig.externals = defu(typeof nitroConfig.externals === 'object' ? nitroConfig.externals : {}, {
+      _config.externals = defu(typeof _config.externals === 'object' ? _config.externals : {}, {
         inline: [resolve('./runtime')],
       })
-      nitroConfig.alias['#nuxt/mongoose'] = resolve('./runtime/server/services')
+      _config.alias['#nuxt/mongoose'] = resolve('./runtime/server/services')
+
+      if (_config.imports) {
+        _config.imports.dirs = _config.imports.dirs || []
+        _config.imports.dirs?.push(config.mongoose.modelsDir)
+      }
     })
 
     addTemplate({
@@ -115,15 +107,9 @@ export default defineNuxtModule<ModuleOptions>({
       options.references.push({ path: resolve(nuxt.options.buildDir, 'types/nuxt-mongoose.d.ts') })
     })
 
-    // Nitro auto imports
-    nuxt.hook('nitro:config', (_nitroConfig) => {
-      if (_nitroConfig.imports) {
-        _nitroConfig.imports.dirs = _nitroConfig.imports.dirs || []
-        _nitroConfig.imports.dirs?.push(
-          join(nuxt.options.serverDir, runtimeConfig.mongoose.modelsDir),
-        )
-      }
-    })
+    const isDevToolsEnabled = typeof nuxt.options.devtools === 'boolean' ? nuxt.options.devtools : nuxt.options.devtools.enabled
+    if (nuxt.options.dev && isDevToolsEnabled)
+      setupDevToolsUI(options, resolve, nuxt)
 
     // Add server-plugin for database connection
     addServerPlugin(resolve('./runtime/server/plugins/mongoose.db'))

@@ -1,4 +1,9 @@
 <script lang="ts" setup>
+import { computed, reactive, ref, watch } from 'vue'
+import { computedAsync } from '@vueuse/core'
+import { rpc } from '../composables/rpc'
+import { useCopy } from '../composables/editor'
+
 const props = defineProps({
   collection: {
     type: String,
@@ -10,19 +15,19 @@ const props = defineProps({
 const pagination = reactive({ limit: 20, page: 1 })
 
 const countDocuments = computedAsync(async () => {
-  return await rpc.countDocuments(props.collection)
+  return await rpc.value?.countDocuments(props.collection)
 })
 
 const documents = computedAsync(async () => {
-  return await rpc.listDocuments(props.collection, pagination)
+  return await rpc.value?.listDocuments(props.collection, pagination)
 })
 
 watch(pagination, async () => {
-  documents.value = await rpc.listDocuments(props.collection, pagination)
+  documents.value = await rpc.value?.listDocuments(props.collection, pagination)
 })
 
 const schema = computedAsync<any>(async () => {
-  return await rpc.resourceSchema(props.collection)
+  return await rpc.value?.resourceSchema(props.collection)
 })
 
 const fields = computed(() => {
@@ -79,7 +84,9 @@ function editDocument(document: any) {
 }
 
 async function saveDocument(document: any, create = true) {
-  const method = create ? rpc.createDocument : rpc.updateDocument
+  const method = create ? rpc.value?.createDocument : rpc.value?.updateDocument
+  if (!method)
+    return
   const newDocument = await method(props.collection, document)
   // TODO: show toast
   if (newDocument?.error)
@@ -87,7 +94,7 @@ async function saveDocument(document: any, create = true) {
 
   if (create) {
     if (!documents.value.length) {
-      documents.value = await rpc.listDocuments(props.collection, pagination)
+      documents.value = await rpc.value?.listDocuments(props.collection, pagination)
       return discardEditing()
     }
     documents.value.push({ _id: newDocument.insertedId, ...document })
@@ -105,7 +112,7 @@ function discardEditing() {
 }
 
 async function deleteDocument(document: any) {
-  const newDocument = await rpc.deleteDocument(props.collection, document._id)
+  const newDocument = await rpc.value?.deleteDocument(props.collection, document._id)
   // TODO: show toast
   if (newDocument.deletedCount === 0)
     return
@@ -170,17 +177,17 @@ const copy = useCopy()
               {{ document[field] }}
             </span>
           </td>
-          <td class="actions">
+          <td>
             <div flex justify-center gap2 class="group">
               <template v-if="editing && selectedDocument._id === document._id">
-                <NIconButton icon="carbon-save" @click="saveDocument(selectedDocument, false)" />
-                <NIconButton icon="carbon-close" @click="discardEditing" />
+                <NIconButton title="Save" icon="carbon-save" @click="saveDocument(selectedDocument, false)" />
+                <NIconButton title="Cancel" icon="carbon-close" @click="discardEditing" />
               </template>
               <template v-else>
-                <NIconButton icon="carbon-edit" @click="editDocument(document)" />
-                <NIconButton icon="carbon-delete" @click="deleteDocument(document)" />
-                <NIconButton icon="carbon-document-multiple-02" @click="saveDocument(document)" />
-                <NIconButton absolute right-4 opacity-0 group-hover="opacity-100" transition-all icon="carbon-copy" @click="copy(JSON.stringify(document))" />
+                <NIconButton title="Edit" icon="carbon-edit" @click="editDocument(document)" />
+                <NIconButton title="Delete" icon="carbon-trash-can" @click="deleteDocument(document)" />
+                <NIconButton title="Duplicate" icon="carbon-document-multiple-02" @click="saveDocument(document)" />
+                <NIconButton title="Copy" n="xs" absolute right-4 opacity-0 group-hover="opacity-100" transition-all icon="carbon-copy" @click="copy(JSON.stringify(document))" />
               </template>
             </div>
           </td>
@@ -190,14 +197,14 @@ const copy = useCopy()
             <input v-if="field !== '_id'" v-model="selectedDocument[field]" :placeholder="field">
             <input v-else placeholder="ObjectId(_id)" disabled>
           </td>
-          <td flex justify-center gap2 class="actions">
-            <NIconButton icon="carbon-save" @click="saveDocument(selectedDocument)" />
-            <NIconButton icon="carbon-close" @click="discardEditing" />
+          <td flex="~ justify-center gap2">
+            <NIconButton title="Save" icon="carbon-save" @click="saveDocument(selectedDocument)" />
+            <NIconButton title="Cancel" icon="carbon-close" @click="discardEditing" />
           </td>
         </tr>
       </tbody>
     </table>
-    <div v-else flex justify-center items-center h-full text-2xl>
+    <div v-else flex="~ justify-center items-center" h-full text-2xl>
       <NIcon icon="carbon-document" mr1 />
       No documents found
     </div>
@@ -205,11 +212,6 @@ const copy = useCopy()
 </template>
 
 <style lang="scss">
-// TODO:
-.actions .n-icon {
-  margin: 0;
-}
-
 table {
   table-layout: fixed;
   tr {
