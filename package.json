@@ -10,7 +10,7 @@
   "homepage": "https://nuxt-mongoose.nuxt.space",
   "repository": {
     "type": "git",
-    "url": "https://github.com/arashsheyda/nuxt-mongoose"
+    "url": "git+https://github.com/arashsheyda/nuxt-mongoose"
   },
   "bugs": {
     "url": "https://github.com/arashsheyda/nuxt-mongoose/issues"
@@ -39,19 +39,19 @@
     "dist"
   ],
   "scripts": {
-    "prepare": "nuxt-module-build --stub && nuxi prepare client",
     "build": "nuxt-module-build && npm run build:client",
     "build:client": "nuxi generate client",
     "dev": "nuxi dev playground",
+    "dev:prepare": "nuxt-module-build && nuxi prepare client",
     "dev:client": "nuxi dev client --port 3300",
     "dev:prod": "npm run build && npm run dev",
     "release": "npm run lint && npm run build && changelogen --release && npm publish",
     "lint": "eslint . --fix"
   },
   "dependencies": {
-    "@nuxt/devtools-kit": "^0.8.2",
-    "@nuxt/devtools-ui-kit": "^0.8.2",
-    "@nuxt/kit": "^3.7.1",
+    "@nuxt/devtools-kit": "^0.8.4",
+    "@nuxt/devtools-ui-kit": "^0.8.4",
+    "@nuxt/kit": "^3.7.3",
     "@vueuse/core": "^10.4.1",
     "defu": "^6.1.2",
     "fs-extra": "^11.1.1",
@@ -62,13 +62,13 @@
     "sirv": "^2.0.3"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^0.41.0",
+    "@antfu/eslint-config": "^0.43.0",
     "@nuxt/module-builder": "^0.5.1",
     "@types/fs-extra": "^11.0.2",
     "@types/pluralize": "^0.0.30",
     "changelogen": "^0.5.5",
-    "eslint": "8.48.0",
-    "nuxt": "^3.7.1",
+    "eslint": "8.49.0",
+    "nuxt": "^3.7.3",
     "sass": "^1.67.0",
     "sass-loader": "^13.3.2",
     "splitpanes": "^3.1.5"
