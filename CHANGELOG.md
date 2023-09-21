@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v1.0.1
+
+### 🏡 Chore
+
+- **release:** V1.0.0 ([b566196](https://github.com/arashsheyda/nuxt-mongoose/commit/b566196))
+- **release:** V1.0.1 ([5bf554f](https://github.com/arashsheyda/nuxt-mongoose/commit/5bf554f))
+- Update dependencies ([0f73464](https://github.com/arashsheyda/nuxt-mongoose/commit/0f73464))
+
+### ❤️ Contributors
+
+- Arash Sheyda <sheidaeearash1999@gmail.com>
+
 ## v1.0.0
 
 [compare changes](https://github.com/arashsheyda/nuxt-mongoose/compare/v0.0.9...v1.0.0)
