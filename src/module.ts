@@ -8,6 +8,7 @@ import {
 import type { ConnectOptions } from 'mongoose'
 import defu from 'defu'
 import { join } from 'pathe'
+import mongoose from 'mongoose'
 import { $fetch } from 'ofetch'
 import { version } from '../package.json'
 import { setupDevToolsUI } from './devtools'
@@ -53,6 +54,11 @@ export default defineNuxtModule<ModuleOptions>({
     devtools: true,
     options: {},
     modelsDir: 'models',
+  },
+  hooks: {
+    close: async () => {
+      await mongoose.disconnect()
+    },
   },
   async setup(options, nuxt) {
     if (nuxt.options.dev) {
