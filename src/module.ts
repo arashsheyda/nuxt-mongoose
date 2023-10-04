@@ -56,8 +56,8 @@ export default defineNuxtModule<ModuleOptions>({
     modelsDir: 'models',
   },
   hooks: {
-    close: async () => {
-      await mongoose.disconnect()
+    close: () => {
+      mongoose.disconnect()
     },
   },
   async setup(options, nuxt) {
