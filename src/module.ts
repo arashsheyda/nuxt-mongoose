@@ -19,27 +19,27 @@ export interface ModuleOptions {
    *
    * @default process.env.MONGODB_URI
    *
-  */
+   */
   uri: string | undefined
   /**
    *  Nuxt DevTools
    *
    * @default true
    *
-  */
+   */
   devtools: boolean
   /**
    *  Mongoose Connections
    *
    * @default {}
-  */
+   */
   options?: ConnectOptions
   /**
    *  Models Directory for auto-import
    *
    * @default 'models'
    *
-  */
+   */
   modelsDir?: string
 }
 
