@@ -1,6 +1,28 @@
 # Changelog
 
 
+## v1.0.2
+
+[compare changes](https://github.com/arashsheyda/nuxt-mongoose/compare/v1.0.1...v1.0.2)
+
+### 🩹 Fixes
+
+- Resolve build stuck issue with nitro pre-render enabled ([#26](https://github.com/arashsheyda/nuxt-mongoose/pull/26))
+
+### 📖 Documentation
+
+- Default connection ([e7c7beb](https://github.com/arashsheyda/nuxt-mongoose/commit/e7c7beb))
+
+### 🏡 Chore
+
+- **release:** V1.0.2 ([ba8459](https://github.com/arashsheyda/nuxt-mongoose/commit/ba8459))
+- Lint ([3d7503e](https://github.com/arashsheyda/nuxt-mongoose/commit/3d7503e))
+
+### ❤️ Contributors
+
+- Arash Sheyda <sheidaeearash1999@gmail.com>
+- Arash
+
 ## v1.0.1
 
 ### 🏡 Chore
