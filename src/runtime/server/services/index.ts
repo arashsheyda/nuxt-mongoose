@@ -22,11 +22,11 @@ export async function defineMongooseConnection({ uri, options }: { uri?: string;
 export function defineMongooseModel<T>(
   nameOrOptions: string | {
     name: string
-    schema: SchemaDefinition
+    schema: SchemaDefinition<T>
     options?: SchemaOptions
     hooks?: (schema: mongoose.Schema<T>) => void
   },
-  schema?: SchemaDefinition,
+  schema?: SchemaDefinition<T>,
   options?: SchemaOptions,
   hooks?: (schema: mongoose.Schema<T>) => void,
 ): Model<T> {
