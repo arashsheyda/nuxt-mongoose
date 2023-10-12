@@ -5,7 +5,6 @@ import type { ConnectOptions, Model, SchemaDefinition, SchemaOptions } from 'mon
 import { useRuntimeConfig } from '#imports'
 
 export async function defineMongooseConnection({ uri, options }: { uri?: string; options?: ConnectOptions } = {}): Promise<void> {
-  // TODO: types
   const config = useRuntimeConfig().mongoose
   const mongooseUri = uri || config.uri
   const mongooseOptions = options || config.options
