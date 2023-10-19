@@ -10,8 +10,8 @@
     "lint": "eslint ."
   },
   "devDependencies": {
-    "@nuxt-themes/docus": "^1.14.9",
-    "@nuxthq/studio": "^1.0.0",
-    "nuxt": "^3.7.4"
+    "@nuxt-themes/docus": "^1.15.0",
+    "@nuxthq/studio": "^1.0.2",
+    "nuxt": "^3.8.0"
   }
 }

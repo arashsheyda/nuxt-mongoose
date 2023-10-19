@@ -15,22 +15,16 @@ export default defineAppConfig({
       edit: true,
     },
     aside: {
-      level: 0,
+      level: 1,
       collapsed: false,
       exclude: [],
-    },
-    main: {
-      padded: true,
-      fluid: true,
     },
     header: {
       logo: true,
       showLinkIcon: true,
       exclude: [],
-      fluid: true,
     },
     footer: {
-      fluid: true,
       iconLinks: [
         {
           href: 'https://nuxt.com',
