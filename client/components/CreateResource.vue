@@ -249,8 +249,8 @@ const toggleSchema = computed({
             <NTextInput v-else v-model="column.default" n="orange" />
           </div>
           <div flex justify-center gap2>
-            <NIconButton icon="carbon-add" n="cyan" @click="addField(index)" />
-            <NIconButton icon="carbon-trash-can" n="red" @click="removeField(index)" />
+            <NButton icon="carbon-add" n="cyan" @click="addField(index)" />
+            <NButton icon="carbon-trash-can" n="red" @click="removeField(index)" />
           </div>
         </div>
       </div>

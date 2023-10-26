@@ -1,11 +1,6 @@
-<script lang="ts" setup>
-import './styles/global.css'
-</script>
-
 <template>
   <Html>
     <Body h-screen>
-      <Notification />
       <NuxtLayout>
         <NuxtPage />
       </NuxtLayout>

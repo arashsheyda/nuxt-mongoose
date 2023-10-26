@@ -125,7 +125,7 @@ const copy = useCopy()
 
 <template>
   <div ref="dbContainer" :class="{ 'h-full': !documents?.length }">
-    <Navbar v-model:search="search" sticky top-0 px4 py2 backdrop-blur z-10>
+    <NNavbar v-model:search="search" sticky top-0 px4 py2 backdrop-blur z-10>
       <template #actions>
         <NButton icon="carbon:add" n="green" @click="addDocument">
           Add Document
@@ -155,7 +155,7 @@ const copy = useCopy()
           </NSelect>
         </div>
       </div>
-    </Navbar>
+    </NNavbar>
     <table v-if="documents?.length || selectedDocument" w-full mb10 :class="{ 'editing-mode': editing }">
       <thead>
         <tr>
@@ -180,14 +180,14 @@ const copy = useCopy()
           <td>
             <div flex justify-center gap2 class="group">
               <template v-if="editing && selectedDocument._id === document._id">
-                <NIconButton title="Save" icon="carbon-save" @click="saveDocument(selectedDocument, false)" />
-                <NIconButton title="Cancel" icon="carbon-close" @click="discardEditing" />
+                <NButton title="Save" icon="carbon-save" n="blue" @click="saveDocument(selectedDocument, false)" />
+                <NButton title="Cancel" icon="carbon-close" n="red" @click="discardEditing" />
               </template>
               <template v-else>
-                <NIconButton title="Edit" icon="carbon-edit" @click="editDocument(document)" />
-                <NIconButton title="Delete" icon="carbon-trash-can" @click="deleteDocument(document)" />
-                <NIconButton title="Duplicate" icon="carbon-document-multiple-02" @click="saveDocument(document)" />
-                <NIconButton title="Copy" n="xs" absolute right-4 opacity-0 group-hover="opacity-100" transition-all icon="carbon-copy" @click="copy(JSON.stringify(document))" />
+                <NButton title="Edit" icon="carbon-edit" n="blue" @click="editDocument(document)" />
+                <NButton title="Delete" icon="carbon-trash-can" n="red" @click="deleteDocument(document)" />
+                <NButton title="Duplicate" icon="carbon-document-multiple-02" n="cyan" @click="saveDocument(document)" />
+                <NButton title="Copy" n="xs purple" absolute right-4 opacity-0 group-hover="opacity-100" transition-all icon="carbon-copy" @click="copy(JSON.stringify(document))" />
               </template>
             </div>
           </td>
@@ -198,8 +198,8 @@ const copy = useCopy()
             <input v-else placeholder="ObjectId(_id)" disabled>
           </td>
           <td flex="~ justify-center gap2">
-            <NIconButton title="Save" icon="carbon-save" @click="saveDocument(selectedDocument)" />
-            <NIconButton title="Cancel" icon="carbon-close" @click="discardEditing" />
+            <NButton title="Save" icon="carbon-save" n="green" @click="saveDocument(selectedDocument)" />
+            <NButton title="Cancel" icon="carbon-close" n="red" @click="discardEditing" />
           </td>
         </tr>
       </tbody>

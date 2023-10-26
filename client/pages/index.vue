@@ -36,22 +36,22 @@ async function refresh() {
 </script>
 
 <template>
-  <SplitPanel :min-left="13" :max-left="20">
+  <NSplitPane :min-left="13" :max-left="20">
     <template #left>
       <div px4>
-        <Navbar v-model:search="search" :placeholder="`${collections?.length ?? '-'} collection in total`" mt2>
+        <NNavbar v-model:search="search" :placeholder="`${collections?.length ?? '-'} collection in total`" mt2 no-padding>
           <div flex items-center gap2>
-            <NIconButton w-full mb1.5 icon="carbon-reset" title="Refresh" @click="refresh" />
-            <NIconButton w-full mb1.5 icon="carbon-data-base" title="Default" text-green-5 />
-            <NIconButton id="open-drawer-right" w-full mb1.5 icon="carbon-add" title="Create Collection" @click="drawer = true" />
+            <NButton n="blue" w-full mb1.5 icon="carbon-reset" title="Refresh" @click="refresh" />
+            <!-- <NButton w-full mb1.5 icon="carbon-data-base" title="Default" n="green" /> -->
+            <NButton n="green" w-full mb1.5 icon="carbon-add" title="Create Collection" @click="drawer = true" />
           </div>
-        </Navbar>
+        </NNavbar>
         <div grid gird-cols-1 my2 mx1>
           <NuxtLink
             v-for="table in filtered"
             :key="table.name"
             :to="{ name: 'index', query: { table: table.name } }"
-            flex justify-between p2 my1 hover-bg-green hover-bg-opacity-5 hover-text-green rounded-lg
+            flex items-center justify-between p2 my1 hover-bg-green hover-bg-opacity-5 hover-text-green rounded-lg
             :class="{ 'bg-green bg-opacity-5 text-green': selectedCollection === table.name }"
             @click="selectedCollection = table.name"
           >
@@ -59,9 +59,9 @@ async function refresh() {
               <NIcon icon="carbon-db2-database" />
               {{ table.name }}
             </span>
-            <div flex gap2>
-              <NIconButton block n="red" icon="carbon-trash-can" @click="dropCollection(table)" />
-              <!-- <NIconButton icon="carbon-overflow-menu-horizontal" /> -->
+            <div flex="~ items-center gap-2">
+              <NButton :border="false" n="red" icon="carbon-trash-can" @click="dropCollection(table)" />
+              <!-- <NButton :border="false" icon="carbon-overflow-menu-horizontal" /> -->
             </div>
           </NuxtLink>
         </div>
@@ -78,8 +78,8 @@ async function refresh() {
         </div>
       </div>
     </template>
-  </SplitPanel>
-  <Drawer v-model="drawer" style="width: calc(80.5%);" auto-close @close="drawer = false">
+  </NSplitPane>
+  <NDrawer v-model="drawer" style="width: calc(80.5%);" auto-close @close="drawer = false" z-20>
     <CreateResource @refresh="refresh" />
-  </Drawer>
+  </NDrawer>
 </template>
