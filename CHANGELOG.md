@@ -1,6 +1,33 @@
 # Changelog
 
 
+## v1.0.4
+
+[compare changes](https://github.com/arashsheyda/nuxt-mongoose/compare/v1.0.2...v1.0.4)
+
+### 🩹 Fixes
+
+- Add schema type ([4bc0742](https://github.com/arashsheyda/nuxt-mongoose/commit/4bc0742))
+
+### 💅 Refactors
+
+- Update to DevTools v1 ([1bec7a7](https://github.com/arashsheyda/nuxt-mongoose/commit/1bec7a7))
+
+### 📖 Documentation
+
+- Update ui ([9296ae7](https://github.com/arashsheyda/nuxt-mongoose/commit/9296ae7))
+- Fix playground path ([ea7c7b0](https://github.com/arashsheyda/nuxt-mongoose/commit/ea7c7b0))
+- Fix install workflow ([4c5a034](https://github.com/arashsheyda/nuxt-mongoose/commit/4c5a034))
+- Update link ([0b575fa](https://github.com/arashsheyda/nuxt-mongoose/commit/0b575fa))
+
+### 🏡 Chore
+
+- Remove comment ([549b2f3](https://github.com/arashsheyda/nuxt-mongoose/commit/549b2f3))
+
+### ❤️ Contributors
+
+- Arash
+
 ## v1.0.2
 
 [compare changes](https://github.com/arashsheyda/nuxt-mongoose/compare/v1.0.1...v1.0.2)
