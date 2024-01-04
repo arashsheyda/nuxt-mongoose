@@ -46,7 +46,8 @@
     "dev:client": "nuxi dev client --port 3300",
     "dev:prod": "npm run build && npm run dev",
     "release": "npm run lint && npm run build && changelogen --release && npm publish",
-    "lint": "eslint . --fix"
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
   },
   "dependencies": {
     "@nuxt/devtools-kit": "1.0.0",
@@ -62,7 +63,7 @@
     "sirv": "^2.0.4"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "1.0.0-beta.29",
+    "@antfu/eslint-config": "^2.6.1",
     "@nuxt/module-builder": "^0.5.5",
     "@types/fs-extra": "^11.0.4",
     "@types/pluralize": "^0.0.32",
