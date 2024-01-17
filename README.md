@@ -1,4 +1,4 @@
-![nuxt-mongoose](https://nuxt-mongoose.nuxt.space/cover.jpg)
+![nuxt-mongoose](https://raw.githubusercontent.com/arashsheyda/nuxt-mongoose/main/docs/public/cover.jpg)
 
 <div align="center">
   <h1>Nuxt Mongoose</h1>
