@@ -1,6 +1,34 @@
 # Changelog
 
 
+## v1.0.5
+
+[compare changes](https://github.com/arashsheyda/nuxt-mongoose/compare/v1.0.3...v1.0.5)
+
+### 💅 Refactors
+
+- Split services into individual files ([d6b8e91](https://github.com/arashsheyda/nuxt-mongoose/commit/d6b8e91))
+
+### 📖 Documentation
+
+- Update dependencies ([12d62d8](https://github.com/arashsheyda/nuxt-mongoose/commit/12d62d8))
+- Update dependencies ([7183742](https://github.com/arashsheyda/nuxt-mongoose/commit/7183742))
+
+### 🏡 Chore
+
+- Test bundler module resolution ([#36](https://github.com/arashsheyda/nuxt-mongoose/pull/36))
+- Update dependencies ([#38](https://github.com/arashsheyda/nuxt-mongoose/pull/38))
+- Update dependencies ([bdab2c5](https://github.com/arashsheyda/nuxt-mongoose/commit/bdab2c5))
+- Update playground ([42b3b83](https://github.com/arashsheyda/nuxt-mongoose/commit/42b3b83))
+- Update cover ([61cc323](https://github.com/arashsheyda/nuxt-mongoose/commit/61cc323))
+- Update cover ([bf7f9db](https://github.com/arashsheyda/nuxt-mongoose/commit/bf7f9db))
+
+### ❤️ Contributors
+
+- Arash
+- Amir H. Moayeri 
+- Daniel Roe <daniel@roe.dev>
+
 ## v1.0.3
 
 [compare changes](https://github.com/arashsheyda/nuxt-mongoose/compare/v1.0.2...v1.0.3)
