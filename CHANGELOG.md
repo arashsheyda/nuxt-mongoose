@@ -3,6 +3,22 @@
 
 ## v1.0.5
 
+[compare changes](https://github.com/arashsheyda/nuxt-mongoose/compare/v1.0.4...v1.0.5)
+
+### 🩹 Fixes
+
+- Replace consola with logger ([5a7936a](https://github.com/arashsheyda/nuxt-mongoose/commit/5a7936a))
+
+### 🏡 Chore
+
+- **release:** V1.0.4 ([64a4fa5](https://github.com/arashsheyda/nuxt-mongoose/commit/64a4fa5))
+
+### ❤️ Contributors
+
+- Arash <arashi.sheyda@gmail.com>
+
+## v1.0.4
+
 [compare changes](https://github.com/arashsheyda/nuxt-mongoose/compare/v1.0.3...v1.0.5)
 
 ### 💅 Refactors
