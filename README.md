@@ -10,7 +10,7 @@
 ## Installation
 
 ```bash
-pnpm add nuxt-mongoose
+npx nuxi@latest module add nuxt-mongoose
 ```
 
 ## Usage
