@@ -70,7 +70,6 @@ export default defineNuxtModule<ModuleOptions>({
 
     if (!options.uri) {
       logger.warn('Missing MongoDB URI. You can set it in your `nuxt.config` or in your `.env` as `MONGODB_URI`')
-      return
     }
 
     const { resolve } = createResolver(import.meta.url)
