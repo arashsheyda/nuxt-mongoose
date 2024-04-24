@@ -1,4 +1,4 @@
-![nuxt-mongoose](https://raw.githubusercontent.com/arashsheyda/nuxt-mongoose/main/docs/public/cover.jpg)
+![nuxt-mongoose](https://docs.arashsheyda.me/modules/nuxt-mongoose.jpg)
 
 <div align="center">
   <h1>Nuxt Mongoose</h1>
@@ -29,7 +29,7 @@ export default defineNuxtConfig({
 
 ### Configuration
 
-For detailed [configuration](https://nuxt-mongoose.nuxt.space/docs/getting-started/configuration) and usage instructions, please refer to our [documentation](https://nuxt-mongoose.nuxt.space/).
+For detailed [configuration](https://docs.arashsheyda.me/nuxt-mongoose/getting-started/configuration) and usage instructions, please refer to our [documentation](https://docs.arashsheyda.me/nuxt-mongoose).
 
 ## License
 

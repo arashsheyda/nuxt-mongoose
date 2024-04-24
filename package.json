@@ -7,7 +7,7 @@
   "description": "Nuxt 3 module for MongoDB with Mongoose",
   "license": "MIT",
   "funding": "https://github.com/sponsors/arashsheyda",
-  "homepage": "https://nuxt-mongoose.nuxt.space",
+  "homepage": "https://docs.arashsheyda.me/nuxt-mongoose",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/arashsheyda/nuxt-mongoose"
