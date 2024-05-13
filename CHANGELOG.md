@@ -1,6 +1,40 @@
 # Changelog
 
 
+## v1.0.6
+
+[compare changes](https://github.com/arashsheyda/nuxt-mongoose/compare/v1.0.4...v1.1.0)
+
+### 🚀 Enhancements
+
+- Add discriminator helper ([#47](https://github.com/arashsheyda/nuxt-mongoose/pull/47))
+
+### 🩹 Fixes
+
+- Replace consola with logger ([5a7936a](https://github.com/arashsheyda/nuxt-mongoose/commit/5a7936a))
+- Continue module setup process Without MONGODB_URI ([#54](https://github.com/arashsheyda/nuxt-mongoose/pull/54))
+
+### 📖 Documentation
+
+- Update examples ([0abeb6b](https://github.com/arashsheyda/nuxt-mongoose/commit/0abeb6b))
+- Fix examples list ([3040751](https://github.com/arashsheyda/nuxt-mongoose/commit/3040751))
+- Use new `nuxi module add` command in installation ([#53](https://github.com/arashsheyda/nuxt-mongoose/pull/53))
+
+### 🏡 Chore
+
+- **release:** V1.0.4 ([64a4fa5](https://github.com/arashsheyda/nuxt-mongoose/commit/64a4fa5))
+- **release:** V1.0.5 ([d746f45](https://github.com/arashsheyda/nuxt-mongoose/commit/d746f45))
+- Update readme with documentation redirection ([89d50bd](https://github.com/arashsheyda/nuxt-mongoose/commit/89d50bd))
+- Move docs ([f504c6b](https://github.com/arashsheyda/nuxt-mongoose/commit/f504c6b))
+- Update readme ([ffb1eb4](https://github.com/arashsheyda/nuxt-mongoose/commit/ffb1eb4))
+
+### ❤️ Contributors
+
+- Arash ([@arashsheyda](http://github.com/arashsheyda))
+- Justin Bellero <jpbellero@gmail.com>
+- Roryc ([@Coiggahou2002](http://github.com/Coiggahou2002))
+- Daniel Roe ([@danielroe](http://github.com/danielroe))
+
 ## v1.0.5
 
 [compare changes](https://github.com/arashsheyda/nuxt-mongoose/compare/v1.0.4...v1.0.5)
