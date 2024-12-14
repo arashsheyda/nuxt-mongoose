@@ -9,6 +9,7 @@ import { useRuntimeConfig } from '#imports'
 export async function defineMongooseConnection({ uri, options }: { uri?: string; options?: ConnectOptions } = {}): Promise<void> {
   const config = useRuntimeConfig().mongoose
   const mongooseUri = uri || config.uri
+  if (!(mongooseUri as string).trim()) return
   const mongooseOptions = options || config.options
 
   try {
