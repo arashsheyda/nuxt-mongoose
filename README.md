@@ -34,7 +34,7 @@ You can configure the module by adding a `mongoose` section to your `nuxt.config
 ```ts
 export default defineNuxtConfig({
   mongoose: {
-    uri: 'process.env.MONGODB_URI',
+    uri: process.env.MONGODB_URI,
     options: {},
     modelsDir: 'models',
   },
