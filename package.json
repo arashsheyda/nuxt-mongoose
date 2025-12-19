@@ -33,7 +33,7 @@
     ]
   },
   "main": "./dist/module.mjs",
-   "typesVersions": {
+  "typesVersions": {
     "*": {
       ".": [
         "./dist/types.d.mts"
@@ -50,10 +50,13 @@
     "dev": "nuxi dev playground",
     "dev:prepare": "nuxt-module-build build --stub && nuxt-module-build prepare && nuxi prepare client && nuxi prepare playground",
     "dev:client": "nuxi dev client --port 3300",
-    "dev:prod": "npm run build && npm run dev",
-    "release": "npm run lint && npm run build && changelogen --release && npm publish",
+    "dev:prod": "pnpm run build && pnpm run dev",
+    "release": "pnpm run lint && pnpm run test && pnpm run build && changelogen --release && pnpm publish",
     "lint": "eslint .",
-    "lint:fix": "eslint . --fix"
+    "lint:fix": "eslint . --fix",
+    "test": "vitest run",
+    "test:watch": "vitest watch",
+    "test:types": "vue-tsc --noEmit && cd playground && vue-tsc --noEmit"
   },
   "dependencies": {
     "@nuxt/devtools-kit": "^3.1.1",
@@ -71,11 +74,15 @@
   "devDependencies": {
     "@nuxt/eslint-config": "^1.12.1",
     "@nuxt/module-builder": "^1.0.2",
+    "@nuxt/test-utils": "^3.21.0",
     "@types/fs-extra": "^11.0.4",
     "@types/pluralize": "^0.0.33",
     "changelogen": "^0.6.2",
     "eslint": "^9.39.1",
     "nuxt": "^4.2.2",
-    "sass": "^1.97.0"
+    "sass": "^1.97.0",
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.16",
+    "vue-tsc": "^3.1.8"
   }
 }
