@@ -9,7 +9,7 @@ export function setupDatabaseRPC({}: DevtoolsServerContext) {
     },
     async createCollection(name: string) {
       try {
-        return await mongoose.connection.db.createCollection(name)
+        return await mongoose.connection.db?.createCollection(name)
       }
       catch (error) {
         return ErrorIT(error)
@@ -17,7 +17,7 @@ export function setupDatabaseRPC({}: DevtoolsServerContext) {
     },
     async listCollections() {
       try {
-        return await mongoose.connection.db.listCollections().toArray()
+        return await mongoose.connection.db?.listCollections().toArray()
       }
       catch (error) {
         return ErrorIT(error)
@@ -25,7 +25,7 @@ export function setupDatabaseRPC({}: DevtoolsServerContext) {
     },
     async getCollection(name: string) {
       try {
-        return await mongoose.connection.db.collection(name).findOne()
+        return await mongoose.connection.db?.collection(name).findOne()
       }
       catch (error) {
         return ErrorIT(error)
@@ -33,7 +33,7 @@ export function setupDatabaseRPC({}: DevtoolsServerContext) {
     },
     async dropCollection(name: string) {
       try {
-        return await mongoose.connection.db.dropCollection(name)
+        return await mongoose.connection.db?.dropCollection(name)
       }
       catch (error) {
         return ErrorIT(error)
@@ -43,7 +43,7 @@ export function setupDatabaseRPC({}: DevtoolsServerContext) {
     async createDocument(collection: string, data: any) {
       const { _id, ...rest } = data
       try {
-        return await mongoose.connection.db.collection(collection).insertOne(rest)
+        return await mongoose.connection.db?.collection(collection).insertOne(rest)
       }
       catch (error: any) {
         return ErrorIT(error)
@@ -51,22 +51,22 @@ export function setupDatabaseRPC({}: DevtoolsServerContext) {
     },
     async countDocuments(collection: string) {
       try {
-        return await mongoose.connection.db.collection(collection).countDocuments()
+        return await mongoose.connection.db?.collection(collection).countDocuments()
       }
       catch (error) {
         return ErrorIT(error)
       }
     },
-    async listDocuments(collection: string, options: { page: number; limit: number } = { page: 1, limit: 10 }) {
+    async listDocuments(collection: string, options: { page: number, limit: number } = { page: 1, limit: 10 }) {
       const skip = (options.page - 1) * options.limit
-      const cursor = mongoose.connection.db.collection(collection).find().skip(skip)
+      const cursor = mongoose.connection.db?.collection(collection).find().skip(skip)
       if (options.limit !== 0)
         cursor?.limit(options.limit)
       return await cursor?.toArray()
     },
     async getDocument(collection: string, document: any) {
       try {
-        return await mongoose.connection.db.collection(collection).findOne({ document })
+        return await mongoose.connection.db?.collection(collection).findOne({ document })
       }
       catch (error) {
         return ErrorIT(error)
@@ -75,7 +75,7 @@ export function setupDatabaseRPC({}: DevtoolsServerContext) {
     async updateDocument(collection: string, data: any) {
       const { _id, ...rest } = data
       try {
-        return await mongoose.connection.db.collection(collection).findOneAndUpdate({ _id: new mongoose.Types.ObjectId(_id) }, { $set: rest })
+        return await mongoose.connection.db?.collection(collection).findOneAndUpdate({ _id: new mongoose.Types.ObjectId(_id) }, { $set: rest })
       }
       catch (error) {
         return ErrorIT(error)
@@ -83,7 +83,7 @@ export function setupDatabaseRPC({}: DevtoolsServerContext) {
     },
     async deleteDocument(collection: string, id: string) {
       try {
-        return await mongoose.connection.db.collection(collection).deleteOne({ _id: new mongoose.Types.ObjectId(id) })
+        return await mongoose.connection.db?.collection(collection).deleteOne({ _id: new mongoose.Types.ObjectId(id) })
       }
       catch (error) {
         return ErrorIT(error)

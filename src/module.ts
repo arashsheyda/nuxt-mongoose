@@ -3,7 +3,7 @@ import {
   addTemplate,
   createResolver,
   defineNuxtModule,
-  logger,
+  useLogger,
 } from '@nuxt/kit'
 import type { ConnectOptions } from 'mongoose'
 import defu from 'defu'
@@ -49,8 +49,7 @@ export default defineNuxtModule<ModuleOptions>({
     configKey: 'mongoose',
   },
   defaults: {
-    // eslint-disable-next-line n/prefer-global/process
-    uri: process.env.MONGODB_URI as string,
+    uri: String(process.env.MONGODB_URI || ''),
     devtools: true,
     options: {},
     modelsDir: 'models',
@@ -60,30 +59,32 @@ export default defineNuxtModule<ModuleOptions>({
       mongoose.disconnect()
     },
   },
-  async setup(options, nuxt) {
-    if (nuxt.options.dev) {
+  async setup(_options, _nuxt) {
+    const logger = useLogger('nuxt-mongoose')
+
+    if (_nuxt.options.dev) {
       $fetch('https://registry.npmjs.org/nuxt-mongoose/latest').then((release) => {
         if (release.version > version)
           logger.info(`A new version of Nuxt Mongoose (v${release.version}) is available: https://github.com/arashsheyda/nuxt-mongoose/releases/latest`)
       }).catch(() => {})
     }
 
-    if (!options.uri) {
+    if (!_options.uri) {
       logger.warn('Missing MongoDB URI. You can set it in your `nuxt.config` or in your `.env` as `MONGODB_URI`')
     }
 
     const { resolve } = createResolver(import.meta.url)
-    const config = nuxt.options.runtimeConfig as any
+    const config = _nuxt.options.runtimeConfig as any
 
     config.mongoose = defu(config.mongoose || {}, {
-      uri: options.uri,
-      options: options.options,
-      devtools: options.devtools,
-      modelsDir: join(nuxt.options.serverDir, options.modelsDir!),
+      uri: _options.uri,
+      options: _options.options,
+      devtools: _options.devtools,
+      modelsDir: join(_nuxt.options.serverDir, _options.modelsDir!),
     })
 
     // virtual imports
-    nuxt.hook('nitro:config', (_config) => {
+    _nuxt.hook('nitro:config', (_config) => {
       _config.alias = _config.alias || {}
 
       // Inline module runtime in Nitro bundle
@@ -108,13 +109,13 @@ export default defineNuxtModule<ModuleOptions>({
       ].join('\n'),
     })
 
-    nuxt.hook('prepare:types', (options) => {
-      options.references.push({ path: resolve(nuxt.options.buildDir, 'types/nuxt-mongoose.d.ts') })
+    _nuxt.hook('prepare:types', (options) => {
+      options.references.push({ path: resolve(_nuxt.options.buildDir, 'types/nuxt-mongoose.d.ts') })
     })
 
-    const isDevToolsEnabled = typeof nuxt.options.devtools === 'boolean' ? nuxt.options.devtools : nuxt.options.devtools.enabled
-    if (nuxt.options.dev && isDevToolsEnabled)
-      setupDevToolsUI(options, resolve, nuxt)
+    const isDevToolsEnabled = typeof _nuxt.options.devtools === 'boolean' ? _nuxt.options.devtools : _nuxt.options.devtools.enabled
+    if (_nuxt.options.dev && isDevToolsEnabled)
+      setupDevToolsUI(_options, resolve, _nuxt)
 
     // Add server-plugin for database connection
     addServerPlugin(resolve('./runtime/server/plugins/mongoose.db'))

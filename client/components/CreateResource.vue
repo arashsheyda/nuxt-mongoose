@@ -104,8 +104,7 @@ function removeField(index: number) {
 const convertedBread = computed(() => {
   const breads: any = []
   // add active breads
-  // eslint-disable-next-line unused-imports/no-unused-vars
-  for (const [key, value] of Object.entries(bread) as any) {
+  for (const [_key, value] of Object.entries(bread)) {
     if (value.active) {
       breads.push({
         type: value.type,
@@ -120,6 +119,7 @@ const formattedFields = computed(() => {
   return fields.value.map((field) => {
     for (const [key, value] of Object.entries(field)) {
       if (!value)
+        // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
         delete field[key]
     }
 
@@ -158,104 +158,265 @@ const toggleSchema = computed({
 </script>
 
 <template>
-  <div relative h-full>
-    <div sticky top-0 px8 py4 glass-effect z-1>
-      <div mb2 flex items-center>
-        <span text-2xl font-bold mt1>
-          <NCheckbox v-model="hasBread" n="green">
+  <div
+    relative
+    h-full
+  >
+    <div
+      sticky
+      top-0
+      px8
+      py4
+      glass-effect
+      z-1
+    >
+      <div
+        mb2
+        flex
+        items-center
+      >
+        <span
+          text-2xl
+          font-bold
+          mt1
+        >
+          <NCheckbox
+            v-model="hasBread"
+            n="green"
+          >
             BREAD
             |
           </NCheckbox>
         </span>
-        <span flex gap4 mt2 ml2>
-          <NCheckbox v-model="bread.browse.active" n="blue">
+        <span
+          flex
+          gap4
+          mt2
+          ml2
+        >
+          <NCheckbox
+            v-model="bread.browse.active"
+            n="blue"
+          >
             Browse
           </NCheckbox>
-          <div flex gap2>
-            <NCheckbox v-model="bread.read.active" n="cyan">
+          <div
+            flex
+            gap2
+          >
+            <NCheckbox
+              v-model="bread.read.active"
+              n="cyan"
+            >
               Read
             </NCheckbox>
-            <NSelect v-if="bread.read.active" v-model="bread.read.by">
-              <option v-for="field in allFields" :key="field.name" :value="field.name">
+            <NSelect
+              v-if="bread.read.active"
+              v-model="bread.read.by"
+            >
+              <option
+                v-for="field in allFields"
+                :key="field.name"
+                :value="field.name"
+              >
                 {{ field.name }}
               </option>
             </NSelect>
           </div>
-          <div flex gap2>
-            <NCheckbox v-model="bread.edit.active" n="purple">
+          <div
+            flex
+            gap2
+          >
+            <NCheckbox
+              v-model="bread.edit.active"
+              n="purple"
+            >
               Edit
             </NCheckbox>
-            <NSelect v-if="bread.edit.active" v-model="bread.edit.by">
-              <option v-for="field in allFields" :key="field.name" :value="field.name">
+            <NSelect
+              v-if="bread.edit.active"
+              v-model="bread.edit.by"
+            >
+              <option
+                v-for="field in allFields"
+                :key="field.name"
+                :value="field.name"
+              >
                 {{ field.name }}
               </option>
             </NSelect>
           </div>
-          <NCheckbox v-model="bread.add.active" n="green">
+          <NCheckbox
+            v-model="bread.add.active"
+            n="green"
+          >
             Add
           </NCheckbox>
-          <div flex gap2>
-            <NCheckbox v-model="bread.delete.active" n="red">
+          <div
+            flex
+            gap2
+          >
+            <NCheckbox
+              v-model="bread.delete.active"
+              n="red"
+            >
               Delete
             </NCheckbox>
-            <NSelect v-if="bread.delete.active" v-model="bread.delete.by">
-              <option v-for="field in allFields" :key="field.name" :value="field.name">
+            <NSelect
+              v-if="bread.delete.active"
+              v-model="bread.delete.by"
+            >
+              <option
+                v-for="field in allFields"
+                :key="field.name"
+                :value="field.name"
+              >
                 {{ field.name }}
               </option>
             </NSelect>
           </div>
         </span>
       </div>
-      <div flex gap4>
-        <NTextInput v-model="collection" flex-auto placeholder="Collection name" />
-        <NCheckbox v-model="toggleSchema" n="green">
+      <div
+        flex
+        gap4
+      >
+        <NTextInput
+          v-model="collection"
+          flex-auto
+          placeholder="Collection name"
+        />
+        <NCheckbox
+          v-model="toggleSchema"
+          n="green"
+        >
           Generate Schema
         </NCheckbox>
       </div>
     </div>
-    <div v-if="schema" px8>
-      <div grid="~ cols-1" gap-2 my4>
-        <div grid="~ cols-6" text-center>
-          <div v-for="label in fieldsLabels" :key="label">
+    <div
+      v-if="schema"
+      px8
+    >
+      <div
+        grid="~ cols-1"
+        gap-2
+        my4
+      >
+        <div
+          grid="~ cols-6"
+          text-center
+        >
+          <div
+            v-for="label in fieldsLabels"
+            :key="label"
+          >
             {{ label }}
           </div>
           <div>
             Actions
           </div>
         </div>
-        <div v-for="(column, index) in fields" :key="index" grid="~ cols-6" items-center text-center gap4>
+        <div
+          v-for="(column, index) in fields"
+          :key="index"
+          grid="~ cols-6"
+          items-center
+          text-center
+          gap4
+        >
           <div>
             <NTextInput v-model="column.name" />
           </div>
           <div>
             <NSelect v-model="column.type">
-              <option v-for="mongoType of mongoTypes" :key="mongoType" :value="mongoType">
+              <option
+                v-for="mongoType of mongoTypes"
+                :key="mongoType"
+                :value="mongoType"
+              >
                 {{ mongoType }}
               </option>
             </NSelect>
           </div>
           <div>
-            <NCheckbox v-model="column.required" n="green" />
+            <NCheckbox
+              v-model="column.required"
+              n="green"
+            />
           </div>
           <div>
-            <NCheckbox v-model="column.unique" n="cyan" />
+            <NCheckbox
+              v-model="column.unique"
+              n="cyan"
+            />
           </div>
           <div>
-            <NTextInput v-if="column.type === 'string'" v-model="column.default" type="string" n="orange" />
-            <NTextInput v-else-if="column.type === 'number'" v-model="column.default" type="number" n="orange" />
-            <NCheckbox v-else-if="column.type === 'boolean'" v-model="column.default" n="orange" />
-            <NTextInput v-else-if="column.type === 'date'" v-model="column.default" type="date" n="orange" />
-            <NTextInput v-else-if="column.type === 'ObjectId'" placeholder="no-default" disabled n="orange" />
-            <NTextInput v-else v-model="column.default" n="orange" />
+            <NTextInput
+              v-if="column.type === 'string'"
+              v-model="column.default"
+              type="string"
+              n="orange"
+            />
+            <NTextInput
+              v-else-if="column.type === 'number'"
+              v-model="column.default"
+              type="number"
+              n="orange"
+            />
+            <NCheckbox
+              v-else-if="column.type === 'boolean'"
+              v-model="column.default"
+              n="orange"
+            />
+            <NTextInput
+              v-else-if="column.type === 'date'"
+              v-model="column.default"
+              type="date"
+              n="orange"
+            />
+            <NTextInput
+              v-else-if="column.type === 'ObjectId'"
+              placeholder="no-default"
+              disabled
+              n="orange"
+            />
+            <NTextInput
+              v-else
+              v-model="column.default"
+              n="orange"
+            />
           </div>
-          <div flex justify-center gap2>
-            <NButton icon="carbon-add" n="cyan" @click="addField(index)" />
-            <NButton icon="carbon-trash-can" n="red" @click="removeField(index)" />
+          <div
+            flex
+            justify-center
+            gap2
+          >
+            <NButton
+              icon="carbon-add"
+              n="cyan"
+              @click="addField(index)"
+            />
+            <NButton
+              icon="carbon-trash-can"
+              n="red"
+              @click="removeField(index)"
+            />
           </div>
         </div>
       </div>
     </div>
-    <NButton glass-effect fixed right-10 bottom-8 px8 py2 icon="carbon-magic-wand-filled" n="green" @click="generate">
+    <NButton
+      glass-effect
+      fixed
+      right-10
+      bottom-8
+      px8
+      py2
+      icon="carbon-magic-wand-filled"
+      n="green"
+      @click="generate"
+    >
       Create
     </NButton>
   </div>

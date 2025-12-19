@@ -40,13 +40,32 @@ const connection = computed(() => connections[props.code])
 
 <template>
   <NPanelGrids>
-    <div flex="~ gap-2" animate-pulse items-center text-lg font-bold :class="connection.color">
+    <div
+      flex="~ gap-2"
+      animate-pulse
+      items-center
+      text-lg
+      font-bold
+      :class="connection.color"
+    >
       ({{ code }}):
       {{ connection.status }},
       {{ connection.description }}
     </div>
-    <div absolute bottom-10 left-10 right-10 flex justify-around>
-      <NCard v-for="item, index of connections" :key="index" p2 :class="[item.color, item.status === connection.status ? item.border : '']">
+    <div
+      absolute
+      bottom-10
+      left-10
+      right-10
+      flex
+      justify-around
+    >
+      <NCard
+        v-for="item, index of connections"
+        :key="index"
+        p2
+        :class="[item.color, item.status === connection.status ? item.border : '']"
+      >
         ({{ index }}): {{ item.status }}
       </NCard>
     </div>

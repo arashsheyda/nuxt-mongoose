@@ -5,10 +5,6 @@ import { startSubprocess } from '@nuxt/devtools-kit'
 import { CLIENT_PORT } from '../src/constants'
 
 export default defineNuxtConfig({
-  devtools: {
-    enabled: true,
-  },
-
   modules: [
     '../src/module',
     defineNuxtModule({
@@ -30,4 +26,8 @@ export default defineNuxtConfig({
       },
     }),
   ],
+  devtools: {
+    enabled: true,
+  },
+  compatibilityDate: '2025-12-18',
 })

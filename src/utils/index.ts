@@ -55,7 +55,7 @@ export const ${name}Schema = defineMongooseModel({
 `
 }
 
-export function generateApiRoute(action: string, { model, by }: { model: { name: string; path: string }; by?: string }) {
+export function generateApiRoute(action: string, { model, by }: { model: { name: string, path: string }, by?: string }) {
   const modelName = capitalize(model.name)
   const operation = {
     index: `return await ${modelName}Schema.find({})`,

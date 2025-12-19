@@ -124,28 +124,61 @@ const copy = useCopy()
 </script>
 
 <template>
-  <div ref="dbContainer" :class="{ 'h-full': !documents?.length }">
-    <NNavbar v-model:search="search" sticky top-0 px4 py2 backdrop-blur z-10>
+  <div
+    ref="dbContainer"
+    :class="{ 'h-full': !documents?.length }"
+  >
+    <NNavbar
+      v-model:search="search"
+      sticky
+      top-0
+      px4
+      py2
+      backdrop-blur
+      z-10
+    >
       <template #actions>
-        <NButton icon="carbon:add" n="green" @click="addDocument">
+        <NButton
+          icon="carbon:add"
+          n="green"
+          @click="addDocument"
+        >
           Add Document
         </NButton>
       </template>
-      <div v-if="countDocuments" flex items-center>
+      <div
+        v-if="countDocuments"
+        flex
+        items-center
+      >
         <div op50>
           <span v-if="search">{{ filtered.length }} matched · </span>
           <span>{{ documents?.length }} of {{ countDocuments }} documents in total</span>
         </div>
         <div flex-auto />
-        <div flex gap-2>
-          <NSelect v-if="pagination.limit !== 0" v-model="pagination.page">
-            <option v-for="i in Math.ceil(countDocuments / pagination.limit)" :key="i" :value="i">
+        <div
+          flex
+          gap-2
+        >
+          <NSelect
+            v-if="pagination.limit !== 0"
+            v-model="pagination.page"
+          >
+            <option
+              v-for="i in Math.ceil(countDocuments / pagination.limit)"
+              :key="i"
+              :value="i"
+            >
               page:
               {{ i }}
             </option>
           </NSelect>
           <NSelect v-model="pagination.limit">
-            <option v-for="i in [1, 2, 3, 4, 5]" :key="i" :value="i * 10">
+            <option
+              v-for="i in [1, 2, 3, 4, 5]"
+              :key="i"
+              :value="i * 10"
+            >
               show:
               {{ i * 10 }}
             </option>
@@ -156,10 +189,19 @@ const copy = useCopy()
         </div>
       </div>
     </NNavbar>
-    <table v-if="documents?.length || selectedDocument" w-full mb10 :class="{ 'editing-mode': editing }">
+    <table
+      v-if="documents?.length || selectedDocument"
+      w-full
+      mb10
+      :class="{ 'editing-mode': editing }"
+    >
       <thead>
         <tr>
-          <th v-for="field of fields" :key="field" text-start>
+          <th
+            v-for="field of fields"
+            :key="field"
+            text-start
+          >
             {{ field }}
           </th>
           <th text-center>
@@ -168,44 +210,127 @@ const copy = useCopy()
         </tr>
       </thead>
       <tbody>
-        <tr v-for="document in filtered" :key="document._id" :class="{ isEditing: editing && selectedDocument._id === document._id }">
-          <td v-for="field of fields" :key="field" @dblclick="editDocument(document)">
+        <tr
+          v-for="document in filtered"
+          :key="document._id"
+          :class="{ isEditing: editing && selectedDocument._id === document._id }"
+        >
+          <td
+            v-for="field of fields"
+            :key="field"
+            @dblclick="editDocument(document)"
+          >
             <template v-if="editing && selectedDocument._id === document._id">
-              <input v-model="selectedDocument[field]" :disabled="field === '_id'">
+              <input
+                v-model="selectedDocument[field]"
+                :disabled="field === '_id'"
+              >
             </template>
             <span v-else>
               {{ document[field] }}
             </span>
           </td>
           <td>
-            <div flex justify-center gap2 class="group">
+            <div
+              flex
+              justify-center
+              gap2
+              class="group"
+            >
               <template v-if="editing && selectedDocument._id === document._id">
-                <NButton title="Save" icon="carbon-save" n="blue" @click="saveDocument(selectedDocument, false)" />
-                <NButton title="Cancel" icon="carbon-close" n="red" @click="discardEditing" />
+                <NButton
+                  title="Save"
+                  icon="carbon-save"
+                  n="blue"
+                  @click="saveDocument(selectedDocument, false)"
+                />
+                <NButton
+                  title="Cancel"
+                  icon="carbon-close"
+                  n="red"
+                  @click="discardEditing"
+                />
               </template>
               <template v-else>
-                <NButton title="Edit" icon="carbon-edit" n="blue" @click="editDocument(document)" />
-                <NButton title="Delete" icon="carbon-trash-can" n="red" @click="deleteDocument(document)" />
-                <NButton title="Duplicate" icon="carbon-document-multiple-02" n="cyan" @click="saveDocument(document)" />
-                <NButton title="Copy" n="xs purple" absolute right-4 opacity-0 group-hover="opacity-100" transition-all icon="carbon-copy" @click="copy(JSON.stringify(document))" />
+                <NButton
+                  title="Edit"
+                  icon="carbon-edit"
+                  n="blue"
+                  @click="editDocument(document)"
+                />
+                <NButton
+                  title="Delete"
+                  icon="carbon-trash-can"
+                  n="red"
+                  @click="deleteDocument(document)"
+                />
+                <NButton
+                  title="Duplicate"
+                  icon="carbon-document-multiple-02"
+                  n="cyan"
+                  @click="saveDocument(document)"
+                />
+                <NButton
+                  title="Copy"
+                  n="xs purple"
+                  absolute
+                  right-4
+                  opacity-0
+                  group-hover="opacity-100"
+                  transition-all
+                  icon="carbon-copy"
+                  @click="copy(JSON.stringify(document))"
+                />
               </template>
             </div>
           </td>
         </tr>
-        <tr v-if="editing && !selectedDocument?._id" :class="{ isEditing: editing && !selectedDocument?._id }">
-          <td v-for="field of fields" :key="field">
-            <input v-if="field !== '_id'" v-model="selectedDocument[field]" :placeholder="field">
-            <input v-else placeholder="ObjectId(_id)" disabled>
+        <tr
+          v-if="editing && !selectedDocument?._id"
+          :class="{ isEditing: editing && !selectedDocument?._id }"
+        >
+          <td
+            v-for="field of fields"
+            :key="field"
+          >
+            <input
+              v-if="field !== '_id'"
+              v-model="selectedDocument[field]"
+              :placeholder="field"
+            >
+            <input
+              v-else
+              placeholder="ObjectId(_id)"
+              disabled
+            >
           </td>
           <td flex="~ justify-center gap2">
-            <NButton title="Save" icon="carbon-save" n="green" @click="saveDocument(selectedDocument)" />
-            <NButton title="Cancel" icon="carbon-close" n="red" @click="discardEditing" />
+            <NButton
+              title="Save"
+              icon="carbon-save"
+              n="green"
+              @click="saveDocument(selectedDocument)"
+            />
+            <NButton
+              title="Cancel"
+              icon="carbon-close"
+              n="red"
+              @click="discardEditing"
+            />
           </td>
         </tr>
       </tbody>
     </table>
-    <div v-else flex="~ justify-center items-center" h-full text-2xl>
-      <NIcon icon="carbon-document" mr1 />
+    <div
+      v-else
+      flex="~ justify-center items-center"
+      h-full
+      text-2xl
+    >
+      <NIcon
+        icon="carbon-document"
+        mr1
+      />
       No documents found
     </div>
   </div>

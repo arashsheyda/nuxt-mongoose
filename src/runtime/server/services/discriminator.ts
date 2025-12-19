@@ -3,11 +3,11 @@ import mongoose from 'mongoose'
 
 export function defineMongooseDiscriminatorModel<T>(
   nameOrOptions: string | {
-    name: string;
-    baseModel: Model<T>;
-    schema: SchemaDefinition<T>;
-    options?: SchemaOptions;
-    hooks?: (schema: mongoose.Schema<T>) => void;
+    name: string
+    baseModel: Model<T>
+    schema: SchemaDefinition<T>
+    options?: SchemaOptions
+    hooks?: (schema: mongoose.Schema<T>) => void
   },
   baseModel?: Model<T>,
   schema?: SchemaDefinition<T>,
@@ -15,7 +15,9 @@ export function defineMongooseDiscriminatorModel<T>(
   hooks?: (schema: mongoose.Schema<T>) => void,
 ): Model<T> {
   let name: string
-  if (typeof nameOrOptions === 'string') { name = nameOrOptions }
+  if (typeof nameOrOptions === 'string') {
+    name = nameOrOptions
+  }
   else {
     name = nameOrOptions.name
     baseModel = nameOrOptions.baseModel
@@ -26,8 +28,9 @@ export function defineMongooseDiscriminatorModel<T>(
 
   const newSchema = new mongoose.Schema<T>(schema, options as any)
 
-  if (hooks)
+  if (hooks) {
     hooks(newSchema)
+  }
 
-  return baseModel!.discriminator<T>(name, newSchema)
+  return baseModel!.discriminator(name, newSchema) as Model<T>
 }

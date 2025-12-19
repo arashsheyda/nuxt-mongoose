@@ -3,10 +3,9 @@ import { consola } from 'consola'
 import { colors } from 'consola/utils'
 import mongoose from 'mongoose'
 
-// @ts-ignore
-import { useRuntimeConfig } from '#imports'
+// import { useRuntimeConfig } from '#imports'
 
-export async function defineMongooseConnection({ uri, options }: { uri?: string; options?: ConnectOptions } = {}): Promise<void> {
+export async function defineMongooseConnection({ uri, options }: { uri?: string, options?: ConnectOptions } = {}): Promise<void> {
   const config = useRuntimeConfig().mongoose
   const mongooseUri = uri || config.uri
   if (!(mongooseUri as string).trim()) return
