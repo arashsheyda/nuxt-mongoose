@@ -45,9 +45,9 @@ export function setupResourceRPC({ nuxt }: DevtoolsServerContext): any {
       }
 
       // create collection if not exists
-      const collections = await mongoose.connection.db.listCollections().toArray()
-      if (!collections.find((c: any) => c.name === plural))
-        return await mongoose.connection.db.createCollection(plural)
+      const collections = await mongoose.connection.db?.listCollections().toArray()
+      if (!collections?.find((c: any) => c.name === plural))
+        return await mongoose.connection.db?.createCollection(plural)
     },
     async resourceSchema(collection: string) {
       const singular = singularize(collection).toLowerCase()
@@ -55,10 +55,9 @@ export function setupResourceRPC({ nuxt }: DevtoolsServerContext): any {
       if (fs.existsSync(schemaPath)) {
         const content = fs.readFileSync(schemaPath, 'utf-8').match(/schema: \{(.|\n)*\}/g)
         if (content) {
-          const schemaString = content[0].replace('schema: ', '').slice(0, -3)
-          // eslint-disable-next-line no-eval
-          const schema = eval(`(${schemaString})`)
-          return schema
+          // const schemaString = content[0].replace('schema: ', '').slice(0, -3)
+          // const schema = eval(`(${schemaString})`)
+          return ''
         }
       }
     },

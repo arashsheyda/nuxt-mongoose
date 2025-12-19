@@ -27,6 +27,7 @@ export interface ServerFunctions {
   reset(): void
 }
 
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export interface ClientFunctions {
 }
 

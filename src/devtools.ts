@@ -1,7 +1,7 @@
 import { existsSync } from 'node:fs'
 import type { Nuxt } from 'nuxt/schema'
 import type { Resolver } from '@nuxt/kit'
-import { extendServerRpc, onDevToolsInitialized } from '@nuxt/devtools-kit'
+import { extendServerRpc, onDevToolsInitialized, addCustomTab } from '@nuxt/devtools-kit'
 import type { ClientFunctions, ServerFunctions } from './types'
 import type { ModuleOptions } from './module'
 import { useViteWebSocket } from './utils'
@@ -35,16 +35,14 @@ export function setupDevToolsUI(options: ModuleOptions, resolve: Resolver['resol
     })
   }
 
-  nuxt.hook('devtools:customTabs', (tabs) => {
-    tabs.push({
-      name: 'nuxt-mongoose',
-      title: 'Mongoose',
-      icon: 'skill-icons:mongodb',
-      view: {
-        type: 'iframe',
-        src: CLIENT_PATH,
-      },
-    })
+  addCustomTab({
+    name: 'nuxt-mongoose',
+    title: 'Mongoose',
+    icon: 'skill-icons:mongodb',
+    view: {
+      type: 'iframe',
+      src: CLIENT_PATH,
+    },
   })
 
   const wsServer = useViteWebSocket(nuxt)

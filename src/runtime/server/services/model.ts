@@ -25,8 +25,9 @@ export function defineMongooseModel<T>(
 
   const newSchema = new mongoose.Schema<T>(schema, options as any)
 
-  if (hooks)
+  if (hooks) {
     hooks(newSchema)
+  }
 
   return mongoose.model<T>(name, newSchema)
 }
