@@ -55,9 +55,9 @@ export function setupResourceRPC({ nuxt }: DevtoolsServerContext): any {
       if (fs.existsSync(schemaPath)) {
         const content = fs.readFileSync(schemaPath, 'utf-8').match(/schema: \{(.|\n)*\}/g)
         if (content) {
-          // const schemaString = content[0].replace('schema: ', '').slice(0, -3)
-          // const schema = eval(`(${schemaString})`)
-          return ''
+          const schemaString = content[0].replace('schema: ', '').slice(0, -3)
+          const schema = eval(`(${schemaString})`)
+          return schema
         }
       }
     },
