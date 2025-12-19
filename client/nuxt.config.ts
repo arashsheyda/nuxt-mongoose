@@ -6,6 +6,9 @@ export default defineNuxtConfig({
     '@nuxt/devtools-ui-kit',
   ],
   ssr: false,
+  devtools: {
+    enabled: false,
+  },
   app: {
     baseURL: CLIENT_PATH,
   },
@@ -14,9 +17,6 @@ export default defineNuxtConfig({
     output: {
       publicDir: resolve(__dirname, '../dist/client'),
     },
-  },
-  vite: {
-
   },
   unocss: {
     shortcuts: {

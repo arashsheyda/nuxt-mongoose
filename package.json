@@ -50,7 +50,7 @@
     "dev": "nuxi dev playground",
     "dev:prepare": "nuxt-module-build build --stub && nuxt-module-build prepare && nuxi prepare client && nuxi prepare playground",
     "dev:client": "nuxi dev client --port 3300",
-    "dev:prod": "pnpm run build && pnpm run dev",
+    "preview": "pnpm prepack && pnpm dev",
     "release": "pnpm run lint && pnpm run test && pnpm run build && changelogen --release && pnpm publish",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",

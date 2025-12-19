@@ -1,5 +1,6 @@
 import { existsSync } from 'node:fs'
 import type { Nuxt } from 'nuxt/schema'
+import { extendViteConfig } from '@nuxt/kit'
 import type { Resolver } from '@nuxt/kit'
 import { extendServerRpc, onDevToolsInitialized, addCustomTab } from '@nuxt/devtools-kit'
 import type { ClientFunctions, ServerFunctions } from './types'
@@ -13,6 +14,7 @@ export function setupDevToolsUI(options: ModuleOptions, resolve: Resolver['resol
   const clientPath = resolve('./client')
   const isProductionBuild = existsSync(clientPath)
 
+  // serve production-built client (used when package is published)
   if (isProductionBuild) {
     nuxt.hook('vite:serverCreated', async (server) => {
       const sirv = await import('sirv').then(r => r.default || r)
@@ -22,8 +24,9 @@ export function setupDevToolsUI(options: ModuleOptions, resolve: Resolver['resol
       )
     })
   }
+  // in local development, proxy to dev server
   else {
-    nuxt.hook('vite:extendConfig', (config) => {
+    extendViteConfig((config) => {
       config.server = config.server || {}
       config.server.proxy = config.server.proxy || {}
       config.server.proxy[CLIENT_PATH] = {
@@ -45,7 +48,7 @@ export function setupDevToolsUI(options: ModuleOptions, resolve: Resolver['resol
     },
   })
 
-  const wsServer = useViteWebSocket(nuxt)
+  const wsServer = useViteWebSocket()
   onDevToolsInitialized(async () => {
     const rpcFunctions = setupRPC({ options, wsServer, nuxt })
 
