@@ -33,6 +33,7 @@ export interface ServerFunctions {
   // Resource - api-routes & models
   generateResource(collection: MCollection, resources: Resource[]): Promise<any>
   resourceSchema(collection: string): Promise<any>
+  getCollectionSchema(collection: string): Promise<RPCResult<Record<string, { type: string }>>>
 
   reset(): void
 }
