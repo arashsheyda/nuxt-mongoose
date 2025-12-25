@@ -60,9 +60,10 @@
   },
   "dependencies": {
     "@nuxt/devtools-kit": "^3.1.1",
-    "@nuxt/devtools-ui-kit": "^3.1.1",
     "@nuxt/kit": "^4.2.2",
+    "@nuxt/ui": "^4.3.0",
     "@vueuse/core": "^14.1.0",
+    "birpc": "^4.0.0",
     "defu": "^6.1.4",
     "fs-extra": "^11.2.0",
     "mongoose": "^9.0.2",
