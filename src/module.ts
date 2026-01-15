@@ -17,7 +17,7 @@ export interface ModuleOptions {
   /**
    *  The MongoDB URI connection
    *
-   * @default process.env.MONGODB_URI
+   * @default process.env.NUXT_MONGOOSE_URI
    *
    */
   uri: string | undefined
@@ -49,7 +49,7 @@ export default defineNuxtModule<ModuleOptions>({
     configKey: 'mongoose',
   },
   defaults: {
-    uri: String(process.env.MONGODB_URI || ''),
+    uri: String(process.env.NUXT_MONGOOSE_URI || ''),
     devtools: true,
     options: {},
     modelsDir: 'models',
@@ -70,7 +70,7 @@ export default defineNuxtModule<ModuleOptions>({
     }
 
     if (!_options.uri) {
-      logger.warn('Missing MongoDB URI. You can set it in your `nuxt.config` or in your `.env` as `MONGODB_URI`')
+      logger.warn('Missing MongoDB URI. You can set it in your `nuxt.config` or in your `.env` as `NUXT_MONGOOSE_URI`')
     }
 
     const { resolve } = createResolver(import.meta.url)
