@@ -10,6 +10,10 @@ const toast = useToast()
 
 const copy = (text: string) => {
   navigator.clipboard.writeText(text)
+  toast.add({
+    title: 'Copied to clipboard',
+    color: 'success',
+  })
 }
 
 const collectionName = computed(() => String(route.params?.collection))
@@ -190,7 +194,7 @@ const columns = computed<TableColumn<any>[]>(() => {
           title: 'Duplicate Document',
           icon: 'carbon-document-multiple-02',
           color: 'info',
-          onClick: () => saveDocument(row.original),
+          onClick: () => duplicateDocument(row.original),
         }),
         renderActionButton({
           title: 'Copy Document JSON',
@@ -294,14 +298,44 @@ async function saveDocument(document: any, create = true) {
       }
       return discardEditing()
     }
-    documents.value.push({ _id: newDocument.insertedId, ...document })
+    if ('insertedId' in newDocument) {
+      documents.value.push({ _id: newDocument.insertedId, ...document })
+    }
   }
   else {
-    const index = documents.value.findIndex((doc: any) => doc._id === newDocument.insertedId)
-    documents.value[index] = document
+    const docId = document._id
+    const index = documents.value.findIndex((doc: any) => doc._id === docId)
+    if (index !== -1) {
+      documents.value[index] = document
+    }
   }
 
   discardEditing()
+}
+
+async function duplicateDocument(document: any) {
+  // Remove _id and duplicate
+  const { _id, ...documentWithoutId } = document
+  const result = await rpc.value?.createDocument(collectionName.value, documentWithoutId)
+
+  if (!result || 'error' in result) {
+    toast.add({
+      title: 'Failed to duplicate document',
+      color: 'error',
+    })
+    return
+  }
+
+  toast.add({
+    title: 'Document duplicated successfully',
+    color: 'success',
+  })
+
+  // Refresh documents
+  const res = await rpc.value?.listDocuments(collectionName.value, pagination)
+  if (res && !('error' in res)) {
+    documents.value = res
+  }
 }
 
 function discardEditing() {
@@ -310,13 +344,22 @@ function discardEditing() {
 }
 
 async function deleteDocument(document: any) {
-  const newDocument = await rpc.value?.deleteDocument(collectionName.value, document._id)
-  console.log('deleted', newDocument)
-  // TODO: show toast
-  if (newDocument?.deletedCount === 0)
+  const result = await rpc.value?.deleteDocument(collectionName.value, document._id)
+
+  if (!result || 'error' in result || result.deletedCount === 0) {
+    toast.add({
+      title: 'Failed to delete document',
+      color: 'error',
+    })
     return
+  }
 
   documents.value = documents.value.filter((doc: any) => doc._id !== document._id)
+
+  toast.add({
+    title: 'Document deleted successfully',
+    color: 'success',
+  })
 }
 
 const columnPinning = ref({
@@ -400,8 +443,10 @@ useEventListener(tableRef, 'scroll', updateShadow)
       </div>
     </div>
 
+    {{ JSON.stringify(schema) }}
+
     <UTable
-      v-if="documents?.length || selectedDocument"
+      v-if="documents?.length || selectedDocument || fields.length"
       ref="tableRef"
       v-model:column-pinning="columnPinning"
       :data="tableData"

@@ -109,8 +109,38 @@ if (typeof window !== 'undefined') {
 
 <template>
   <div class="relative w-full h-full overflow-hidden font-mono text-slate-300">
-    <div class="absolute inset-0 pointer-events-none z-1">
+    <div class="absolute -left-48 -top-10 pointer-events-none z-1 opacity-50">
       <canvas ref="matrixCanvas" />
+    </div>
+
+    <div class="absolute inset-0 flex items-center justify-center z-2">
+      <div class="text-center space-y-6 max-w-md px-6">
+        <div class="space-y-2">
+          <h2 class="text-2xl font-bold text-white">
+            No Collection Selected
+          </h2>
+          <p class="text-sm opacity-60">
+            Select a collection from the sidebar to view and manage your documents
+          </p>
+        </div>
+
+        <div class="pt-4 space-y-3">
+          <p class="text-xs opacity-50 uppercase tracking-wider">
+            Quick Actions
+          </p>
+          <div class="flex flex-col gap-2 items-center">
+            <div class="text-xs opacity-60">
+              Use the sidebar to browse existing collections
+            </div>
+            <div class="text-xs opacity-60">
+              Click "Create" to add a new collection
+            </div>
+            <div class="text-xs opacity-60">
+              Use "Refresh" to reload the collections list
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
