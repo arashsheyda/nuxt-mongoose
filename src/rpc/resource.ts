@@ -57,7 +57,6 @@ export function setupResourceRPC({ nuxt }: DevtoolsServerContext): any {
         if (content) {
           const schemaString = content[0].replace('schema: ', '').slice(0, -3)
           // SECURITY FIX: Use Function constructor instead of eval
-          // eslint-disable-next-line no-new-func
           const schema = new Function(`return ${schemaString}`)()
           return schema
         }
