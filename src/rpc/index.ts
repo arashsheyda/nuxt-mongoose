@@ -11,7 +11,9 @@ export function setupRPC(ctx: DevtoolsServerContext): ServerFunctions {
     logger.warn('MongoDB autoconnect is disabled, configure `uri` to enable.')
   }
   else {
-    mongoose.connect(ctx.options.uri, ctx.options.options)
+    mongoose.connect(ctx.options.uri, ctx.options.options).catch((err) => {
+      logger.error('Failed to connect to MongoDB:', err)
+    })
   }
 
   return {

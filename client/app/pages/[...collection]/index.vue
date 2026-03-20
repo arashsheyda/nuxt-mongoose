@@ -107,7 +107,9 @@ const filtered = computed(() => {
     return documents.value
   return documents.value.filter((document: any) => {
     for (const field of fields.value) {
-      if (document[field].toString().toLowerCase().includes(search.value.toLowerCase()))
+      // Add null/undefined check to prevent crashes
+      const value = document[field]
+      if (value != null && value.toString().toLowerCase().includes(search.value.toLowerCase()))
         return true
     }
     return false

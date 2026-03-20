@@ -31,7 +31,7 @@ export interface ServerFunctions {
   deleteDocument(collection: string, id: string): Promise<RPCResult<DeleteResult>>
 
   // Resource - api-routes & models
-  generateResource(collection: MCollection, resources: Resource[]): Promise<any>
+  generateResource(collection: CollectionDefinition, resources: Resource[]): Promise<any>
   resourceSchema(collection: string): Promise<any>
   getCollectionSchema(collection: string): Promise<RPCResult<Record<string, { type: string }>>>
 
@@ -48,7 +48,7 @@ export interface DevtoolsServerContext {
   wsServer: Promise<WebSocketServer>
 }
 
-export interface Collection {
+export interface CollectionDefinition {
   name: string
   fields?: object[]
 }

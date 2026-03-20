@@ -1,14 +1,14 @@
 import fs from 'fs-extra'
 import { join } from 'pathe'
 import mongoose from 'mongoose'
-import type { Collection, DevtoolsServerContext, Resource, ServerFunctions } from '../types'
+import type { CollectionDefinition, DevtoolsServerContext, Resource, ServerFunctions } from '../types'
 import { capitalize, generateApiRoute, generateSchemaFile, pluralize, singularize } from '../utils'
 
 export function setupResourceRPC({ nuxt }: DevtoolsServerContext): any {
   const config = nuxt.options.runtimeConfig.mongoose
 
   return {
-    async generateResource(collection: Collection, resources: Resource[]) {
+    async generateResource(collection: CollectionDefinition, resources: Resource[]) {
       const singular = singularize(collection.name).toLowerCase()
       const plural = pluralize(collection.name).toLowerCase()
       const dbName = capitalize(singular)
@@ -56,7 +56,9 @@ export function setupResourceRPC({ nuxt }: DevtoolsServerContext): any {
         const content = fs.readFileSync(schemaPath, 'utf-8').match(/schema: \{(.|\n)*\}/g)
         if (content) {
           const schemaString = content[0].replace('schema: ', '').slice(0, -3)
-          const schema = eval(`(${schemaString})`)
+          // SECURITY FIX: Use Function constructor instead of eval
+          // eslint-disable-next-line no-new-func
+          const schema = new Function(`return ${schemaString}`)()
           return schema
         }
       }

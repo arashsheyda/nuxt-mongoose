@@ -115,6 +115,10 @@ export function setupDatabaseRPC({}: DevtoolsServerContext) {
         if (!db) {
           return createError(new Error('Database not connected'))
         }
+        // Validate ObjectId format
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+          return createError(new Error('Invalid ObjectId format'))
+        }
         return await db.collection(collection).findOne({ _id: new mongoose.Types.ObjectId(id) })
       }
       catch (error) {
@@ -128,6 +132,10 @@ export function setupDatabaseRPC({}: DevtoolsServerContext) {
         if (!db) {
           return createError(new Error('Database not connected'))
         }
+        // Validate ObjectId format
+        if (!mongoose.Types.ObjectId.isValid(_id)) {
+          return createError(new Error('Invalid ObjectId format'))
+        }
         return await db.collection(collection).updateOne({ _id: new mongoose.Types.ObjectId(_id) }, { $set: rest })
       }
       catch (error) {
@@ -139,6 +147,10 @@ export function setupDatabaseRPC({}: DevtoolsServerContext) {
         const db = mongoose.connection.db
         if (!db) {
           return createError(new Error('Database not connected'))
+        }
+        // Validate ObjectId format
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+          return createError(new Error('Invalid ObjectId format'))
         }
         return await db.collection(collection).deleteOne({ _id: new mongoose.Types.ObjectId(id) })
       }
