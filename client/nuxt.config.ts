@@ -1,9 +1,9 @@
 import { resolve } from 'pathe'
-import { CLIENT_PATH } from '../src/constants'
+import { CLIENT_PATH, CLIENT_PORT } from '../src/constants'
 
 export default defineNuxtConfig({
   modules: [
-    '@nuxt/devtools-ui-kit',
+    '@nuxt/ui',
   ],
   ssr: false,
   devtools: {
@@ -12,20 +12,21 @@ export default defineNuxtConfig({
   app: {
     baseURL: CLIENT_PATH,
   },
+  css: ['~/assets/css/main.css'],
   compatibilityDate: '2025-12-18',
   nitro: {
     output: {
       publicDir: resolve(__dirname, '../dist/client'),
     },
   },
-  unocss: {
-    shortcuts: {
-      'bg-base': 'bg-white dark:bg-[#151515]',
-      'bg-active': 'bg-gray:5',
-      'bg-hover': 'bg-gray:3',
-      'border-base': 'border-gray/20',
-      'glass-effect': 'backdrop-blur-6 bg-white/80 dark:bg-[#151515]/90',
-      'navbar-glass': 'sticky z-10 top-0 glass-effect',
+  vite: {
+    server: {
+      hmr: {
+        protocol: 'ws',
+        host: 'localhost',
+        port: CLIENT_PORT,
+        clientPort: CLIENT_PORT,
+      },
     },
   },
 })
