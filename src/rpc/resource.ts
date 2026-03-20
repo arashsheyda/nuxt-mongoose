@@ -4,8 +4,12 @@ import mongoose from 'mongoose'
 import type { CollectionDefinition, DevtoolsServerContext, Resource, ServerFunctions } from '../types'
 import { capitalize, generateApiRoute, generateSchemaFile, pluralize, singularize } from '../utils'
 
+function safeExists(path: unknown): path is string {
+  return typeof path === 'string' && path.length > 0 && fs.existsSync(path)
+}
+
 export function setupResourceRPC({ nuxt }: DevtoolsServerContext): any {
-  const config = nuxt.options.runtimeConfig.mongoose
+  const config = nuxt.options.runtimeConfig.mongoose as any
 
   return {
     async generateResource(collection: CollectionDefinition, resources: Resource[]) {
@@ -15,7 +19,7 @@ export function setupResourceRPC({ nuxt }: DevtoolsServerContext): any {
 
       if (collection.fields) {
         const schemaPath = join(config.modelsDir, `${singular}.schema.ts`)
-        if (!fs.existsSync(schemaPath)) {
+        if (!safeExists(schemaPath)) {
           fs.ensureDirSync(config.modelsDir)
           fs.writeFileSync(schemaPath, generateSchemaFile(dbName, collection.fields))
         }
@@ -36,7 +40,7 @@ export function setupResourceRPC({ nuxt }: DevtoolsServerContext): any {
             : routeTypes[route.type]
 
           const filePath = join(nuxt.options.serverDir, 'api', plural, fileName)
-          if (!fs.existsSync(filePath)) {
+          if (!safeExists(filePath)) {
             fs.ensureDirSync(join(nuxt.options.serverDir, `api/${plural}`))
             const content = generateApiRoute(route.type, { model, by: route.by })
             fs.writeFileSync(filePath, content)
@@ -52,7 +56,7 @@ export function setupResourceRPC({ nuxt }: DevtoolsServerContext): any {
     async resourceSchema(collection: string) {
       const singular = singularize(collection).toLowerCase()
       const schemaPath = join(config.modelsDir, `${singular}.schema.ts`)
-      if (fs.existsSync(schemaPath)) {
+      if (safeExists(schemaPath)) {
         const content = fs.readFileSync(schemaPath, 'utf-8').match(/schema: \{(.|\n)*\}/g)
         if (content) {
           const schemaString = content[0].replace('schema: ', '').slice(0, -3)

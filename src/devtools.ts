@@ -12,7 +12,7 @@ import { CLIENT_PATH, CLIENT_PORT, RPC_NAMESPACE } from './constants'
 
 export function setupDevToolsUI(options: ModuleOptions, resolve: Resolver['resolve'], nuxt: Nuxt) {
   const clientPath = resolve('./client')
-  const isProductionBuild = existsSync(clientPath)
+  const isProductionBuild = typeof clientPath === 'string' && clientPath.length > 0 && existsSync(clientPath)
 
   // serve production-built client (used when package is published)
   if (isProductionBuild) {
