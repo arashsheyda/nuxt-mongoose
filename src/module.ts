@@ -75,6 +75,7 @@ export default defineNuxtModule<ModuleOptions>({
 
     const { resolve } = createResolver(import.meta.url)
     const config = _nuxt.options.runtimeConfig as any
+    const runtimeServicesPath = resolve('./runtime/server/services')
 
     config.mongoose = defu(config.mongoose || {}, {
       uri: _options.uri,
@@ -82,6 +83,9 @@ export default defineNuxtModule<ModuleOptions>({
       devtools: _options.devtools,
       modelsDir: join(_nuxt.options.serverDir, _options.modelsDir!),
     })
+
+    // Make virtual import available to Vite/Vitest and app runtime.
+    _nuxt.options.alias['#nuxt/mongoose'] = runtimeServicesPath
 
     // virtual imports
     _nuxt.hook('nitro:config', (_config) => {
@@ -91,7 +95,7 @@ export default defineNuxtModule<ModuleOptions>({
       _config.externals = defu(typeof _config.externals === 'object' ? _config.externals : {}, {
         inline: [resolve('./runtime')],
       })
-      _config.alias['#nuxt/mongoose'] = resolve('./runtime/server/services')
+      _config.alias['#nuxt/mongoose'] = runtimeServicesPath
 
       if (_config.imports) {
         _config.imports.dirs = _config.imports.dirs || []
@@ -103,8 +107,8 @@ export default defineNuxtModule<ModuleOptions>({
       filename: 'types/nuxt-mongoose.d.ts',
       getContents: () => [
         'declare module \'#nuxt/mongoose\' {',
-        `  const defineMongooseConnection: typeof import('${resolve('./runtime/server/services')}').defineMongooseConnection`,
-        `  const defineMongooseModel: typeof import('${resolve('./runtime/server/services')}').defineMongooseModel`,
+        `  const defineMongooseConnection: typeof import('${runtimeServicesPath}').defineMongooseConnection`,
+        `  const defineMongooseModel: typeof import('${runtimeServicesPath}').defineMongooseModel`,
         '}',
       ].join('\n'),
     })
