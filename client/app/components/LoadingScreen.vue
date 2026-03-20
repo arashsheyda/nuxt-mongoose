@@ -190,7 +190,7 @@ const connection = computed(() => connections[code]!)
     </div>
 
     <div
-      v-if="info"
+      v-if="info?.authenticated"
       class="absolute top-10 left-10 hidden lg:block pointer-events-none text-[10px] text-white/20"
     >
       <p>DB: {{ info.name }}</p>

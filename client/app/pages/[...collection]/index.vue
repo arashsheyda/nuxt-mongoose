@@ -229,6 +229,33 @@ function addDocument() {
       selectedDocument.value[field] = ''
   }
   // }
+
+  // Scroll to new document and focus on first field
+  setTimeout(() => {
+    const tableEl = tableRef.value?.$el as HTMLElement
+    if (tableEl) {
+      // Scroll to the bottom where the new row is
+      tableEl.scrollTop = tableEl.scrollHeight
+    }
+
+    // Focus on the first editable field
+    const firstField = fields.value.find(f => f !== '_id')
+    if (firstField && selectedDocument.value) {
+      const inputId = `${selectedDocument.value._id || 'new'}-${firstField}`
+      const input = document.getElementById(inputId) as HTMLInputElement
+      if (input) {
+        input.focus()
+      }
+      else {
+        // If no _id yet, try to find the first input in the editing row
+        setTimeout(() => {
+          const firstInput = document.querySelector('.custom-input input') as HTMLInputElement
+          if (firstInput)
+            firstInput.focus()
+        }, 100)
+      }
+    }
+  }, 100)
 }
 
 function editDocument(document: any) {
@@ -316,85 +343,92 @@ useEventListener(tableRef, 'scroll', updateShadow)
 </script>
 
 <template>
-  <div class="px-4 py-2 backdrop-blur z-10 flex items-center gap-4 border-b border-default">
-    <UInput
-      v-model="search"
-      placeholder="Search..."
-      class="flex-1"
-    />
-    <UButton
-      icon="carbon:add"
-      color="success"
-      @click="addDocument"
-    >
-      Add Document
-    </UButton>
-  </div>
-
-  <div
-    v-if="totalDocuments"
-    class="flex items-center px-4 py-2 border-b border-default"
-  >
-    <div class="opacity-50">
-      <span v-if="search">{{ filtered.length }} matched · </span>
-      <span>{{ documents?.length }} of {{ totalDocuments }} documents in total</span>
-    </div>
-    <div class="flex-auto" />
-    <div class="flex gap-2">
-      <select
-        v-if="pagination.limit !== 0"
-        v-model="pagination.page"
-        class="px-3 py-1.5 rounded border border-default bg-default"
+  <NuxtLayout>
+    <template #actions>
+      <UInput
+        v-model="search"
+        placeholder="Search..."
+        class="w-64"
+      />
+      <UButton
+        icon="carbon:add"
+        color="success"
+        @click="addDocument"
       >
-        <option
-          v-for="i in Math.ceil(totalDocuments / pagination.limit)"
-          :key="i"
-          :value="i"
-        >
-          page: {{ i }}
-        </option>
-      </select>
-      <select
-        v-model="pagination.limit"
-        class="px-3 py-1.5 rounded border border-default bg-default"
-      >
-        <option
-          v-for="i in [1, 2, 3, 4, 5]"
-          :key="i"
-          :value="i * 10"
-        >
-          show: {{ i * 10 }}
-        </option>
-        <option :value="0">
-          show all
-        </option>
-      </select>
-    </div>
-  </div>
-
-  <UTable
-    v-if="documents?.length || selectedDocument"
-    ref="tableRef"
-    v-model:column-pinning="columnPinning"
-    :data="tableData"
-    :columns="columns"
-    sticky
-    :ui="{
-      tr: editing ? 'data-[editing=true]:bg-elevated' : '',
-    }"
-  >
-    <template #_id-cell="{ row }">
-      ObjectId('{{ row.original._id }}')
+        Add Document
+      </UButton>
     </template>
-  </UTable>
 
-  <div
-    v-else
-    class="flex justify-center items-center h-full text-2xl"
-  >
-    <span class="mr-1">📄</span>
-    No documents found
-  </div>
+    <div
+      v-if="totalDocuments"
+      class="flex items-center px-4 py-2 border-b border-default"
+    >
+      <div class="opacity-50">
+        <span v-if="search">{{ filtered.length }} matched · </span>
+        <span>{{ documents?.length }} of {{ totalDocuments }} documents in total</span>
+      </div>
+      <div class="flex-auto" />
+      <div class="flex gap-2">
+        <select
+          v-if="pagination.limit !== 0"
+          v-model="pagination.page"
+          class="px-3 py-1.5 rounded border border-default bg-default"
+        >
+          <option
+            v-for="i in Math.ceil(totalDocuments / pagination.limit)"
+            :key="i"
+            :value="i"
+          >
+            page: {{ i }}
+          </option>
+        </select>
+        <select
+          v-model="pagination.limit"
+          class="px-3 py-1.5 rounded border border-default bg-default"
+        >
+          <option
+            v-for="i in [1, 2, 3, 4, 5]"
+            :key="i"
+            :value="i * 10"
+          >
+            show: {{ i * 10 }}
+          </option>
+          <option :value="0">
+            show all
+          </option>
+        </select>
+      </div>
+    </div>
+
+    <UTable
+      v-if="documents?.length || selectedDocument"
+      ref="tableRef"
+      v-model:column-pinning="columnPinning"
+      :data="tableData"
+      :columns="columns"
+      sticky
+      :ui="{
+        tr: editing ? 'data-[editing=true]:bg-elevated' : '',
+      }"
+    >
+      <template #_id-cell="{ row }">
+        <span v-if="row.original._id">
+          ObjectId('{{ row.original._id }}')
+        </span>
+        <span v-else>
+          ---
+        </span>
+      </template>
+    </UTable>
+
+    <div
+      v-else
+      class="flex justify-center items-center h-full text-2xl"
+    >
+      <span class="mr-1">📄</span>
+      No documents found
+    </div>
+  </NuxtLayout>
 </template>
 
 <style lang="scss">

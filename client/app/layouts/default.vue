@@ -1,14 +1,13 @@
 <script setup lang="ts">
-import type { NavigationMenuItem, DropdownMenuItem } from '@nuxt/ui'
+import type { NavigationMenuItem } from '@nuxt/ui'
 import { computedAsync } from '@vueuse/core'
 import { rpc } from '../composables/rpc'
-import { useRoute, ref, computed, onMounted, watch, useRouter } from '#imports'
+import { useRoute, ref, computed, watch, useRouter } from '#imports'
 
 const collections = computedAsync(async () => await rpc.value?.listCollections() || [])
 
 const route = useRoute()
 const router = useRouter()
-// const toast = useToast()
 
 const open = ref(false)
 
@@ -27,11 +26,6 @@ const groups = computed(() => [
   {
     id: 'collections',
     label: 'Collections',
-    items: links.value[0],
-  },
-  {
-    id: 'actions',
-    label: 'Actions',
     items: links.value[0],
   },
   {
@@ -57,41 +51,6 @@ watch(links, () => {
     }
   }
 }, { immediate: true })
-
-onMounted(async () => {
-//   const cookie = useCookie('cookie-consent')
-//   if (cookie.value === 'accepted') {
-//     return
-//   }
-
-//   toast.add({
-//     title: 'We use first-party cookies to enhance your experience on our website.',
-//     duration: 0,
-//     close: false,
-//     actions: [{
-//       label: 'Accept',
-//       color: 'neutral',
-//       variant: 'outline',
-//       onClick: () => {
-//         cookie.value = 'accepted'
-//       },
-//     }, {
-//       label: 'Opt out',
-//       color: 'neutral',
-//       variant: 'ghost',
-//     }],
-//   })
-})
-
-const items = [[{
-  label: 'New mail',
-  icon: 'i-lucide-send',
-  to: '/inbox',
-}, {
-  label: 'New customer',
-  icon: 'i-lucide-user-plus',
-  to: '/customers',
-}]] satisfies DropdownMenuItem[][]
 </script>
 
 <template>
@@ -155,13 +114,7 @@ const items = [[{
           </template>
 
           <template #right>
-            <UDropdownMenu :items="items">
-              <UButton
-                icon="i-lucide-plus"
-                size="md"
-                class="rounded-full"
-              />
-            </UDropdownMenu>
+            <slot name="actions" />
           </template>
         </UDashboardNavbar>
       </template>
