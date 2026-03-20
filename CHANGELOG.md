@@ -1,6 +1,43 @@
 # Changelog
 
 
+## v1.1.0
+
+[compare changes](https://github.com/arashsheyda/nuxt-mongoose/compare/v1.0.6...v1.1.0)
+
+### 🚀 Enhancements
+
+- Disable autoconnect ([#69](https://github.com/arashsheyda/nuxt-mongoose/pull/69))
+
+### 🩹 Fixes
+
+- ***:** Update dependencies ([#75](https://github.com/arashsheyda/nuxt-mongoose/pull/75))
+- Update devtools configuration for improved local dx ([dde3431](https://github.com/arashsheyda/nuxt-mongoose/commit/dde3431))
+- **rpc:** Update types ([3f27d6a](https://github.com/arashsheyda/nuxt-mongoose/commit/3f27d6a))
+
+### 💅 Refactors
+
+- Update devtools ui ([#76](https://github.com/arashsheyda/nuxt-mongoose/pull/76))
+
+### 📖 Documentation
+
+- Enhance Documentation ([#70](https://github.com/arashsheyda/nuxt-mongoose/pull/70))
+
+### 🏡 Chore
+
+- **readme:** Update MongoDB URI Configuration in String Format ([#73](https://github.com/arashsheyda/nuxt-mongoose/pull/73))
+
+### 🤖 CI
+
+- Setup initial ci workflow ([50d16f9](https://github.com/arashsheyda/nuxt-mongoose/commit/50d16f9))
+
+### ❤️ Contributors
+
+- Arash Ari Sheyda ([@arashsheyda](https://github.com/arashsheyda))
+- Najajan-de <svc_github_olw2@najajan.de>
+- Naihe ([@naiheyoung](https://github.com/naiheyoung))
+- NormVg ([@NormVg](https://github.com/NormVg))
+
 ## v1.0.6
 
 [compare changes](https://github.com/arashsheyda/nuxt-mongoose/compare/v1.0.4...v1.1.0)
