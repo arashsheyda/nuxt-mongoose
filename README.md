@@ -34,7 +34,7 @@ You can configure the module by adding a `mongoose` section to your `nuxt.config
 ```ts
 export default defineNuxtConfig({
   mongoose: {
-    uri: process.env.MONGODB_URI,
+    uri: process.env.NUXT_MONGOOSE_URI,
     options: {},
     modelsDir: 'models',
   },
@@ -50,12 +50,12 @@ By default, `nuxt-mongoose` will auto-import your schemas from the `models` dire
 If you prefer to use the default configuration, skip adding the `mongoose` section to your `nuxt.config.ts` file. Simply provide your MongoDB connection URI in a `.env` file like this:
 
 ```env
-MONGODB_URI="mongodb+srv://username:password@cluster0.mongodb.net/<database-name>?retryWrites=true&w=majority"
+NUXT_MONGOOSE_URI="mongodb+srv://username:password@cluster0.mongodb.net/<database-name>?retryWrites=true&w=majority"
 ```
 
 > 🔹 Replace `username`, `password`, and `<database name>` with your MongoDB credentials and database name.
 
-That's it! The module will automatically use the `MONGODB_URI` and default settings for your connection. No additional configuration is required.
+That's it! The module will automatically use the `NUXT_MONGOOSE_URI` and default settings for your connection. No additional configuration is required.
 
 ---
 
