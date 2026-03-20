@@ -251,7 +251,10 @@ const selectedCollection = computed(() => route.params.collection as string || '
           <template #right>
             <slot name="actions" />
 
-            <USlideover v-model:open="deleteConfirmOpen">
+            <USlideover
+              v-if="selectedCollection"
+              v-model:open="deleteConfirmOpen"
+            >
               <UButton
                 icon="i-lucide-trash-2"
                 color="error"

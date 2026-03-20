@@ -66,6 +66,25 @@ const schema = computedAsync<any>(async () => {
   if (!result || 'error' in result) {
     return null
   }
+  if (Object.keys(result).length === 0) {
+    const schemas = await rpc.value?.resourceSchema(collectionName.value)
+    if (schemas && !('error' in schemas)) {
+      // Normalize resourceSchema format to match getCollectionSchema
+      const normalized: Record<string, any> = {}
+      for (const [key, value] of Object.entries(schemas)) {
+        if (value && typeof value === 'object' && 'type' in value) {
+          const typeValue = (value as any).type
+          // If type is already a string, use it; otherwise get the constructor name
+          const typeName = typeof typeValue === 'string' ? typeValue : (typeValue?.name || 'unknown')
+          normalized[key] = { ...value, type: typeName }
+        }
+        else {
+          normalized[key] = value
+        }
+      }
+      return normalized
+    }
+  }
   return result
 }, null)
 
@@ -223,16 +242,16 @@ function addDocument() {
     return
   editing.value = true
   selectedDocument.value = {}
-  // if (schema.value) {
-  //   for (const field of Object.keys(schema.value))
-  //     selectedDocument.value[field] = ''
-  // }
-  // else {
-  for (const field of fields.value) {
-    if (field !== '_id')
+  if (schema.value) {
+    for (const field of Object.keys(schema.value))
       selectedDocument.value[field] = ''
   }
-  // }
+  else {
+    for (const field of fields.value) {
+      if (field !== '_id')
+        selectedDocument.value[field] = ''
+    }
+  }
 
   // Scroll to new document and focus on first field
   setTimeout(() => {
@@ -442,8 +461,6 @@ useEventListener(tableRef, 'scroll', updateShadow)
         </select>
       </div>
     </div>
-
-    {{ JSON.stringify(schema) }}
 
     <UTable
       v-if="documents?.length || selectedDocument || fields.length"

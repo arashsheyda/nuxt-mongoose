@@ -109,11 +109,12 @@ if (typeof window !== 'undefined') {
 
 <template>
   <div class="relative w-full h-full overflow-hidden font-mono text-slate-300">
-    <div class="absolute -left-48 -top-10 pointer-events-none z-1 opacity-50">
-      <canvas ref="matrixCanvas" />
-    </div>
-
     <div class="absolute inset-0 flex items-center justify-center z-2">
+      <canvas
+        ref="matrixCanvas"
+        class="absolute opacity-25"
+      />
+
       <div class="text-center space-y-6 max-w-md px-6">
         <div class="space-y-2">
           <h2 class="text-2xl font-bold text-white">
