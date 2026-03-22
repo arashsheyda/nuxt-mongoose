@@ -49,7 +49,7 @@ export default defineNuxtModule<ModuleOptions>({
     configKey: 'mongoose',
   },
   defaults: {
-    uri: String(process.env.NUXT_MONGOOSE_URI || ''),
+    uri: String(process.env.NUXT_MONGOOSE_URI || process.env.MONGODB_URI || ''),
     devtools: true,
     options: {},
     modelsDir: 'models',
