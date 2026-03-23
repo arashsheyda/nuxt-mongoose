@@ -1,6 +1,24 @@
 # Changelog
 
 
+## v1.1.2
+
+[compare changes](https://github.com/arashsheyda/nuxt-mongoose/compare/v1.0.0...v1.1.2)
+
+### 🩹 Fixes
+
+- Resolve import paths for Vite/Vitest compatibility ([#80](https://github.com/arashsheyda/nuxt-mongoose/pull/80))
+- Update import paths for nitropack runtime ([#83](https://github.com/arashsheyda/nuxt-mongoose/pull/83))
+
+### 🏡 Chore
+
+- **ci:** Add pkg-pr-new workflow and remove studio workflow ([#79](https://github.com/arashsheyda/nuxt-mongoose/pull/79))
+- **release:** V1.1.1 ([9a11d27](https://github.com/arashsheyda/nuxt-mongoose/commit/9a11d27))
+
+### ❤️ Contributors
+
+- Arash Ari Sheyda ([@arashsheyda](https://github.com/arashsheyda))
+
 ## v1.1.1
 
 [compare changes](https://github.com/arashsheyda/nuxt-mongoose/compare/v1.0.0...v1.1.1)
