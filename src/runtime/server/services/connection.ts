@@ -2,8 +2,7 @@ import type { ConnectOptions } from 'mongoose'
 import { consola } from 'consola'
 import { colors } from 'consola/utils'
 import mongoose from 'mongoose'
-
-// import { useRuntimeConfig } from '#imports'
+import { useRuntimeConfig } from 'nitropack/runtime'
 
 export async function defineMongooseConnection({ uri, options }: { uri?: string, options?: ConnectOptions } = {}): Promise<void> {
   const config = useRuntimeConfig().mongoose
