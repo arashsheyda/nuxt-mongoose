@@ -49,7 +49,7 @@ export default defineNuxtModule<ModuleOptions>({
     configKey: 'mongoose',
   },
   defaults: {
-    uri: String(process.env.NUXT_MONGOOSE_URI || ''),
+    uri: String(process.env.NUXT_MONGOOSE_URI || process.env.MONGODB_URI || ''),
     devtools: true,
     options: {},
     modelsDir: 'models',
@@ -69,6 +69,9 @@ export default defineNuxtModule<ModuleOptions>({
       }).catch(() => {})
     }
 
+    if (process.env.MONGODB_URI && !process.env.NUXT_MONGOOSE_URI) {
+      logger.warn('`MONGODB_URI` is deprecated, please use `NUXT_MONGOOSE_URI` instead.')
+    }
     if (!_options.uri) {
       logger.warn('Missing MongoDB URI. You can set it in your `nuxt.config` or in your `.env` as `NUXT_MONGOOSE_URI`')
     }
