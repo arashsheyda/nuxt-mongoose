@@ -71,7 +71,7 @@ This function creates a new Mongoose connection. Example usage:
 ```ts
 import { defineMongooseConnection } from '#nuxt/mongoose'
 
-export const connection = defineMongooseConnection('mongodb://127.0.0.1/nuxt-mongoose')
+export const connection = defineMongooseConnection({ uri: 'mongodb://127.0.0.1/nuxt-mongoose' })
 ```
 
 ### defineMongooseModel

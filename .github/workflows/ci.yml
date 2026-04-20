@@ -46,4 +46,6 @@ jobs:
         run: npm run dev:prepare
 
       - name: Test
+        env:
+          RUN_E2E_TESTS: ${{ github.event_name == 'pull_request' && 'true' || 'false' }} # end to end test only in pr
         run: npm run test
